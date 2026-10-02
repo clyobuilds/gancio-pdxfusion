@@ -1,0 +1,28 @@
+{
+  "@context": [
+    "https://www.w3.org/ns/activitystreams",
+    "https://w3id.org/security/v1"
+  ],
+  "type": "Announce",
+  "actor": "http://localhost:13120/federation/u/relay",
+  "object": {
+    "id": "http://localhost:13120/federation/m/1",
+    "type": "Event",
+    "attributedTo": "http://localhost:13120/federation/u/relay",
+    "name": "Create > Event",
+    "startTime": "2023-01-01T12:00:00Z",
+    "endTime": "2023-01-01T13:00:00Z",
+    "location": {
+      "type": "Place",
+      "name": "My Location",
+      "latitude": 37.7749,
+      "longitude": -122.4194
+    },
+    "signature": {
+      "type": "RsaSignature2017",
+      "creator": "http://localhost:13120/federation/u/relay",
+      "created": "2026-03-21T12:20:14.098Z",
+      "signatureValue": "snT/H0d9RSF1CozmtLuwqd4osO6PgonYXTStXoH1uJN566ZIhly8r0cmKOZkzAwWeQECMVZ/5emGe13puERvVoBP2Z9UwkefWomG5cbUTuupKdTPkX5snZJWy2zAGs7WvnWZoZkqfcbJinD4mhkRns9Sj4JpNr5PGGEK5BaVS9GJYYKWQWqCqC6tmc1+R7rzTjjC8ejRN3Crxlt6uYQjF3PnLmBe58qYxGXaNj0F7i+gI2CuFRE5GsxE87k2dt6XaCAFvUx2AwSiy9pDmylJOB29l3KVNGy0oXxh/8eLQAe0TLJEWS+w+oKwGRMBPxsH0hmIqSV+TfGTQ1KYr8DRCUtN6wHtl2WOOi5BmX6lIci4oRHwbeNtrSmiSkgTy6pZsC2jOTY4u/uOJs1vtPoZrB4OZPfwEzVc83w9BeaZGC6sFtHBJ7Q/bzmDIjm0purHdjeUJGA+5QsRnf+E5jURGVHf5PTKD+pmOH2oxM9T+cT0ImfvMKb1UlpOakwV/oiFz8Zn9QR5ADNBbX3cStstJq++E4Jgyr4LS5VSym2rIYwUextVn/fAWBaBje7hkPzTpMSrdjqiguW1q7MqfvsOLTpBSYcRgXOifYNTYl15KoRHfexfeYo4AmdWTwf5TxwJitGGdyuTW8xxUt5qrtXmx3kAwND/ac4X6Ywkpki/HkI="
+    }
+  }
+}

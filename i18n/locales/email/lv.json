@@ -1,0 +1,35 @@
+{
+    "register": {
+        "subject": "Saņemts reģistrācijas pieteikums",
+        "content": "Mēs saņēmām reģistrācijas pieteikumu. Mēs to apstiprināsim pēc iespējas ātrāk."
+    },
+    "confirm": {
+        "subject": "Tu tagad vari sākt publicēt pasākumus",
+        "content": "Sveiki, tavs <a href='{{{config.baseurl}}}'>{{config.title}}</a> konts ir apstiprināts. Raksti mums uz {{config.admin_email}}, ja ir kādi jautājumi."
+    },
+    "user_confirm": {
+        "subject": "Tu tagad vari sākt publicēt pasākumus",
+        "content": "Sveiki, tavs <a href='{{{config.baseurl}}}'>{{config.title}}</a> konts ir izveidots. <a href='{{{config.baseurl}}}/user_confirm/{{user.recover_code}}'>Apstiprini un izvēlies paroli.</a>."
+    },
+    "recover": {
+        "subject": "Paroles atgūšana",
+        "content": "Sveiki, tu pieprasīji atgūt {{config.title}} paroli. <a href='{{{config.baseurl}}}/recover/{{user.recover_code}}'>Nospied šeit</a>, lai apstiprinātu."
+    },
+    "event_confirm": {
+        "content": "Pasākumu iespējams apstiprināt <a href='{{{url}}}'>šajā lapā</a>"
+    },
+    "test": {
+        "subject": "Tava SMTP konfigurācija darbojās",
+        "content": "Šī ir testa e-pasta vēstule, ja spēj šo izlasīt, konfigurācija strādā."
+    },
+    "admin_register": {
+        "subject": "Jauna reģistrācija",
+        "content": "{{user.email}} pieprasīja reģistrāciju {{config.title}}: <br/><pre>{{user.description}}</pre><br/>Apstiprini to <a href='{{{config.baseurl}}}/admin'>šeit</a>."
+    },
+    "report": {
+        "subject": "[{{event.title}}] notikuma moderēšana",
+        "content_AUTHOR": "Notikuma <strong>{{event.title}}</strong> autors uzrakstīja: <br/><blockquote>{{message}}</blockquote><br/><br/><a href='{{{url}}}'>Atvērt moderāciju</a>",
+        "content_ANON": "Apmeklētājs paziņoja par notikumu <strong>{{event.title}}</strong>: <br/><blockquote>{{message}}</blockquote><br/><br/><a href='{{{url}}}'>Atvērt moderāciju</a>",
+        "content_ADMIN": "Administrators izteica savu viedokli par pasākumu <strong>{{event.title}}</strong>:<br/><blockquote>{{message}}</blockquote><br/><br/><a href='{{{url}}}'> Atvērt saziņu. </a>"
+    }
+}

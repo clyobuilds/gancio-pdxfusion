@@ -1,0 +1,32 @@
+stages:
+  - test
+  # - build
+
+vitest:
+  stage: test
+  image: node:24
+  rules:
+    - if: '$CI_COMMIT_BRANCH == "main"'
+    - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
+  script:
+    - corepack enable
+    - pnpm install --frozen-lockfile
+    - pnpm test
+
+# Only build & push Docker images on tags or protected branches.
+# This limits exposure of registry credentials ($REGISTRY_PASSWORD, etc.)
+# and prevents unauthorized images from being pushed to the registry.
+# docker-image:
+#   stage: build
+#   image: docker
+#   rules:
+#     - if: '$CI_COMMIT_TAG'
+#     - if: '$CI_COMMIT_REF_PROTECTED == "true"'
+#   script:
+#     - echo "$REGISTRY_PASSWORD" | docker login "$REGISTRY_HOST" -u "$REGISTRY_USER" --password-stdin
+#     - |
+#       REF="${CI_COMMIT_TAG:-$CI_COMMIT_BRANCH}"
+#       TAGS="-t $REGISTRY_IMAGE:$REF${SUFFIX:+-$SUFFIX} -t $REGISTRY_IMAGE:git-$CI_COMMIT_SHORT_SHA${SUFFIX:+-$SUFFIX}"
+#       docker buildx build --platform linux/amd64,linux/arm64 \
+#         -f Dockerfile${SUFFIX:+.$SUFFIX} \
+#         $TAGS --push .

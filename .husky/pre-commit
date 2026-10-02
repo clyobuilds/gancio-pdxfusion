@@ -1,0 +1,11 @@
+pnpm npx lint-staged
+
+STATUS=$?
+
+if [ $STATUS -ne 0 ]; then
+  echo ""
+  echo "Commit aborted as you have some lint issue:"
+  echo "you can fix issues or bypass using git commit --no-verify"
+  echo ""
+  exit 1
+fi

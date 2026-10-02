@@ -1,0 +1,17 @@
+{
+  "name": "gancio-events",
+  "version": "0.0.1",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "build:lib": "vite build -c=vite.lib.config.js",
+    "serve": "vite preview"
+  },
+  "devDependencies": {
+    "@sveltejs/vite-plugin-svelte": "^7.0.0",
+    "svelte": "^5.55.5",
+    "terser": "^5.46.2",
+    "vite": "^8.0.10"
+  }
+}

@@ -1,0 +1,14 @@
+- [ ] external migration script as
+- [ ] manage ENV, config.json, other dbs
+- [ ] reintroduce custom / manual oauth2 for back-compatibility
+- [ ] custom locales
+- [ ] how to install plugin dependencies?
+- [ ] docker data backup
+- [ ] setup
+- [ ] modify auth User type (is_admin, is_editor)
+- [ ] create retEvent type (is_mine, is_anon, n_messages, original_url, user, tags, plain_description)
+- [ ] switch
+- [ ] in API documentation put the link to edit file!
+- [ ] clean boost / like information from event/details
+- [ ] footer other locations
+- [ ] flex

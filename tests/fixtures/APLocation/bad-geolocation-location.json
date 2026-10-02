@@ -1,0 +1,7 @@
+{
+   "id" : "http://localhost:13120/federation/p/6",
+   "name" : "Location with a name and bad geolocation",
+   "type" : "Place",
+   "latitude": "not-a-number",
+   "longitude": 12.3456
+}

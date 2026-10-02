@@ -1,0 +1,38 @@
+{
+  "baseurl": "http://localhost:13120",
+  "hostname": "localhost",
+  "server": {
+    "host": "0.0.0.0",
+    "port": 13120
+  },
+  "log_level": "fatal",
+  "log_path": "logs",
+  "db": {
+    "dialect": "sqlite",
+    "storage": "gancio.test.sqlite",
+    "logging": false,
+    "retry": {
+      "match": [
+        null,
+        null,
+        null,
+        {},
+        {}
+      ],
+      "max": 15
+    }
+  },
+  "user_locale": "user_locale",
+  "upload_path": "uploads",
+  "proxy": {
+    "protocol": "",
+    "hostname": "",
+    "host": "",
+    "port": "",
+    "auth": {
+      "username": "",
+      "password": ""
+    },
+    "headers": {}
+  }
+}

@@ -1,0 +1,35 @@
+{
+    "admin_register": {
+        "content": "{{user.email}} hat eine Registrierung auf {{config.title}} angefordert: <br/><pre>{{user.description}}</pre><br/> Bitte bestätigen <a href='{{{config.baseurl}}}/admin'>here</a>.",
+        "subject": "Neue Registrierung"
+    },
+    "recover": {
+        "content": "Hallo, du hast die Wiederherstellung deines Passworts angefordert {{config.title}}. <a href='{{{config.baseurl}}}/recover/{{user.recover_code}}'>Klicke hier</a>, um zu bestätigen.",
+        "subject": "Passwortwiederherstellung"
+    },
+    "user_confirm": {
+        "content": "Hallo, dein Account auf <a href='{{{config.baseurl}}}'>{{config.title}}</a> wurde erstellt. <a href='{{{config.baseurl}}}/user_confirm/{{user.recover_code}}'>Bestätige ihn und wähle ein Kennwort.</a>.",
+        "subject": "Du kannst jetzt damit beginnen, Events zu veröffentlichen"
+    },
+    "confirm": {
+        "content": "Hallo, dein Account auf <a href='{{{config.baseurl}}}'>{{config.title}}</a> wurde bestätigt. Anfragen kannst du an {{config.admin_email}} stellen.",
+        "subject": "Du kannst jetzt damit beginnen, Veranstaltungen zu veröffentlichen"
+    },
+    "register": {
+        "content": "Wir haben die Registrierungsanfrage erhalten. Wir werden sie so bald wie möglich bestätigen.",
+        "subject": "Registrierungsanfrage erhalten"
+    },
+    "event_confirm": {
+        "content": "Du kannst diese Veranstaltung auf <a href='{{{url}}}'>dieser Seite</a> bestätigen"
+    },
+    "test": {
+        "content": "Dies ist eine Test-Mail. Wenn du das lesen kannst, funktioniert deine Konfiguration.",
+        "subject": "Deine SMTP-Konfiguration funktioniert"
+    },
+    "report": {
+        "subject": "Dein Eintrag [{{event.title}}] wurde geändert",
+        "content_ADMIN": "Ein Administrator hat einen Hinweis zu deiner Veranstaltung erfasst: <strong>{{event.title}}</strong>:<br/><blockquote>{{message}}</blockquote><br/><br/><a href='{{{url}}}'>Hinweise anzeigen</a>",
+        "content_ANON": "Ein Besucher hat einen Hinweis zu deinem Eintrag <strong>{{event.title}}</strong>:<br/><blockquote>{{message}}</blockquote><br/><br/><a href='{{{url}}}'>Hinweis öffnen</a>",
+        "content_AUTHOR": "Der Autor der Veranstaltung <strong>{{event.title}}</strong> schrieb:<br/><blockquote>{{message}}</blockquote><br/><br/><a href='{{{url}}}'>Hinweis öffnen</a>"
+    }
+}

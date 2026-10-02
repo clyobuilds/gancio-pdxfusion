@@ -1,0 +1,68 @@
+import { DataTypes, col, fn } from '@sequelize/core'
+
+// what is missing from the previous migration is that I want to use an id as the primary key for the `tags` table
+export async function up({ context: queryInterface }) {
+  
+  await queryInterface.sequelize.transaction(async (transaction) => {
+
+    // mock Tag model because its easier to do updates with it than raw queries and is not easy to import from the model in a migration
+    const Tag = queryInterface.sequelize.define('Tag', {
+      id: { type: DataTypes.INTEGER, autoIncrement: true, allowNull: true },
+      tag: { type: DataTypes.STRING, primaryKey: true },
+      normalizedTag: { type: DataTypes.STRING, allowNull: true },
+    }, { tableName: 'tags', transaction })
+    
+    const EventTag = queryInterface.sequelize.define('EventTag', {
+      eventId: { type: DataTypes.INTEGER, primaryKey: true },
+      tagTag: { type: DataTypes.STRING, primaryKey: true },
+      tagId: { type: DataTypes.INTEGER },
+    }, { tableName: 'event_tags', timestamps: false })
+    EventTag.belongsTo(Tag, { foreignKey: 'tagTag', targetKey: 'tag' })
+
+    // add new auto-incrementing id column as primary key
+    await queryInterface.addColumn('tags', 'id', {
+      type: DataTypes.INTEGER,
+      autoIncrement: true,
+      allowNull: false,
+    }, { transaction })
+    
+    await queryInterface.addColumn('event_tags', 'tagId', {
+      type: DataTypes.INTEGER,
+      allowNull: true,
+    }, { transaction })
+  
+    
+    const freshTags = await Tag.findAll({ raw: true, transaction })
+    const tagMap = {}
+    for (const t of freshTags) {
+      tagMap[t.tag] = t.id
+    }
+
+    const allEventTags = await EventTag.findAll({ raw: true, transaction })
+    
+    for (const et of allEventTags) {
+      await EventTag.update(
+        { tagId: tagMap[et.tagTag] },
+        {
+          where: {
+            eventId: et.eventId,
+            tagTag: et.tagTag
+          },
+          transaction
+        }
+      )
+    }
+    
+    await queryInterface.changeColumn('event_tags', 'tagId', {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+    }, { transaction })
+    
+    await queryInterface.removeColumn('event_tags', 'tagTag', { transaction })
+    await queryInterface.removeConstraint('tags', 'tags_pkey', { transaction })
+    
+
+    
+    
+  })
+}

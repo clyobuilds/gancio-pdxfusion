@@ -1,0 +1,104 @@
+
+/* fix: reduce the space between icon and text and lower icon opacity, #360 */
+.v-application--is-ltr .v-list-item__action:first-child,
+.v-application--is-ltr .v-list-item__icon:first-child {
+  margin-right: 20px !important;
+}
+
+
+.v-card .v-icon,
+.event-card .v-icon {
+  --v-icon-opacity: 0.6;
+}
+
+.v-btn .v-icon {
+  --v-icon-opacity: 1;
+}
+
+.v-table.v-data-table {
+  background: transparent;
+}
+
+.v-table .v-icon {
+  opacity: 1 !important;
+}
+
+
+.v-card-subtitle {
+  /* $card-subtitle-white-space */
+  white-space: normal !important;
+}
+
+.v-theme--light .v-card,
+.v-theme--light .event {
+  background-color: #f8f8f8;
+  border: thin solid rgba(0, 0, 0, 0.12);
+}
+
+
+.v-theme--dark .event {
+  border: thin solid #333;
+  background-color: #1e1e1e;
+}
+
+a {
+  color: rgb(var(--v-theme-primary));
+}
+
+pre {
+  white-space: break-spaces;
+  font-size: 13px;
+}
+
+blockquote {
+  border-left: 4px solid rgba(0, 0, 0, 0.5);
+  margin-left: 0;
+  margin-right: 0;
+  padding-left: 16px;
+  opacity: 0.6;
+}
+
+ul:not(.v-pagination__list) {
+  padding-left: 2rem;
+}
+
+.pointer-ev-none {
+  pointer-events: none;
+  user-select: none;
+}
+
+.vc-light *, .vc-dark * {
+  --vc-highlight-outline-content-color: rgb(var(--v-theme-primary)) !important;
+  --vc-highlight-outline-border: rgb(var(--v-theme-primary));
+  --vc-highlight-light-content-color: rgb(var(--v-theme-primary)) !important;
+  --vc-highlight-solid-bg: rgb(var(--v-theme-primary));
+  --vc-highlight-light-bg: rgb(var(--v-theme-primary), var(--v-activated-opacity));
+  --vc-day-content-hover-bg: rgb(var(--v-theme-primary), var(--v-activated-opacity));
+  --vc-focus-ring: 0 0 0 2px rgb(var(--v-theme-primary), 0.4);
+  --vc-nav-item-active-bg: rgb(var(--v-theme-primary));
+  --vc-nav-item-current-color: rgb(var(--v-theme-primary));
+}
+
+.events {
+  margin-inline: auto;
+  gap: 16px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.event {
+  flex: 1 1 350px;
+  max-width: 440px;
+  min-height: 288px;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  transition: all .5s;
+  overflow: hidden;
+}
+
+/* Align events with the grid only if there is more than 1 row. */
+.events > .event:last-child:nth-child(n+3) {
+  margin-inline-end: auto;
+}

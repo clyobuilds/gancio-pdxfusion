@@ -1,0 +1,20 @@
+FROM oven/bun:slim
+
+RUN apt-get update && apt-get install -y \
+    bash \
+    curl \
+    git \
+    && rm -rf /var/lib/apt/lists/*
+
+WORKDIR /home/node
+
+COPY . .
+
+RUN bun install
+ENV NODE_ENV=development
+
+EXPOSE 13120
+
+# RUN yarn global add nodemon
+
+CMD ["bun", "run", "dev"]

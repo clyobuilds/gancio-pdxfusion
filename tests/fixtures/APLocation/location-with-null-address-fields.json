@@ -1,0 +1,15 @@
+{
+    "address": {
+        "addressCountry": null,
+        "addressLocality": "Cremona",
+        "addressRegion": null,
+        "postalCode": null,
+        "streetAddress": "Corso Vittorio Emanuele Ii 52",
+        "type": "PostalAddress"
+    },
+    "id": "https://ticketzon.it/address/9f8d933f-5386-46c4-a6b1-31e850470e1e",
+    "latitude": 45.1324863,
+    "longitude": 10.0189683,
+    "name": "Teatro Ponchielli",
+    "type": "Place"
+}

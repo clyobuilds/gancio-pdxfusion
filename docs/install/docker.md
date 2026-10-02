@@ -1,0 +1,53 @@
+# Docker installation
+
+## Setup
+
+Make sure to have [Docker Engine](https://docs.docker.com/engine/install/),
+[Docker Compose](https://docs.docker.com/compose/install/) and [nginx](https://nginx.org/en/docs/install.html) installed:
+```bash
+sudo apt install docker docker-compose nginx
+```
+
+Create a directory where everything related to gancio is stored:
+```bash
+mkdir -p /opt/gancio
+cd /opt/gancio
+```
+
+<!-- 
+Download `docker-compose.yml` choosing your preferred database dialect between `sqlite`, `postgres` and `mariadb`:
+```bash
+DB=sqlite
+wget {{site.url}}/docker/$DB/docker-compose.yml
+``` -->
+
+## Start gancio
+
+```bash
+docker run --rm  -p 13120:13120 -v ./data:/app/data -v ./.env.example:/app/.env cisti/gancio:beta
+```
+<!-- 
+Start your container:
+```bash
+docker-compose up -d
+``` -->
+
+<!-- You can take a look at logs using:
+```bash
+tail -f  data/logs/gancio.log
+```
+ -->
+You'll need to [setup nginx as a proxy](./nginx) then you can point your web browser to your domain :tada:
+
+<!-- 
+## Upgrade
+
+> warning "Backup your data"
+> Backup your data is generally a good thing to do and this is especially true before upgrading.
+> Don't be lazy and [backup](./install/backup.md) your data!
+
+
+```bash
+cd /opt/gancio # or where your installation is
+docker-compose pull && docker-compose up -d
+``` -->

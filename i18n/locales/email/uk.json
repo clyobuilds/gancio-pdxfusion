@@ -1,0 +1,35 @@
+{
+    "register": {
+        "content": "Ми отримали запит на реєстрацію. Ми підтвердимо його якнайшвидше.",
+        "subject": "Отримано запит на реєстрацію"
+    },
+    "user_confirm": {
+        "content": "Вітаю, вами створено акаунт на <a href='{{{config.baseurl}}}'>{{config.title}}</a>. <a href='{{{config.baseurl}}}/user_confirm/{{user.recover_code}}'>Підтвердити і створити пароль.</a>.",
+        "subject": "Тепер ви можете публікувати події"
+    },
+    "event_confirm": {
+        "content": "Ви можете підтвердити цю подію на <a href='{{{url}}}'>цій сторінці</a>"
+    },
+    "report": {
+        "subject": "Модерація події [{{event.title}}]",
+        "content_AUTHOR": "Автор події <strong>{{event.title}}</strong> написали:<br/><blockquote>{{message}}</blockquote><br/><br/><a href='{{{url}}}'>Модерувати</a>",
+        "content_ANON": "Відвідувач поскаржився на подію <strong>{{event.title}}</strong>:<br/><blockquote>{{message}}</blockquote><br/><br/><a href='{{{url}}}'>Модерувати</a>",
+        "content_ADMIN": "Адмін додав коментар до події <strong>{{event.title}}</strong>:<br/><blockquote>{{message}}</blockquote><br/><br/><a href='{{{url}}}'>Модерувати</a>"
+    },
+    "admin_register": {
+        "subject": "Нова реєстрація",
+        "content": "{{user.email}} хоче зареєструватись на {{config.title}}:<br/><pre>{{user.description}}</pre><br/><a href='{{{config.baseurl}}}/admin'>Підтвердити реєстрацію</a>."
+    },
+    "confirm": {
+        "subject": "Тепер ви можете публікувати події",
+        "content": "Вітаю, ваш акаунт на <a href='{{{config.baseurl}}}'>{{config.title}}</a> був підтверджений. Якщо у вас є якісь питання -- пишіть на {{config.admin_email}}."
+    },
+    "recover": {
+        "subject": "Відновлення паролю",
+        "content": "Вітаю, ви зробили запит на відновлення паролю на {{config.title}}. <a href='{{{config.baseurl}}}/recover/{{user.recover_code}}'>Клікніть тут щоб підтвердити</a> ."
+    },
+    "test": {
+        "content": "Це тестовий лист, якщо ви його читаєте, ваші налаштування працюють.",
+        "subject": "Ваша SMTP конфігурація працює"
+    }
+}

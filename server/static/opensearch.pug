@@ -1,0 +1,12 @@
+doctype xml
+OpenSearchDescription(xmlns="http://a9.com/-/spec/opensearch/1.1/")
+    ShortName #{settings.title}
+    LongName #{longName}
+    Description #{settings.description}
+    InputEncoding UTF-8
+    Url(type="text/html" method="get" template=settings.baseurl + "/?query={searchTerms}")
+    Url(type="application/rss+xml" method="get" template=settings.baseurl + "/feed/rss?query={searchTerms}")
+    Url(type="application/json" method="get" template=settings.baseurl + "/feed/json?query={searchTerms}")
+    Image(type="image/png") #{settings.baseurl}/logo.png
+    SyndicationRight open
+    Url(type="application/opensearchdescription+xml" rel="self" template=settings.baseurl + "/opensearch.xml")

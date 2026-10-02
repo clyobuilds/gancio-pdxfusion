@@ -1,0 +1,55 @@
+{
+  "@context": [
+    "https://www.w3.org/ns/activitystreams",
+    "https://w3id.org/fep/8a8e",
+    "https://schema.org",
+    {
+      "toot": "http://joinmastodon.org/ns#",
+      "Hashtag": "https://www.w3.org/ns/activitystreams#Hashtag",
+      "manuallyApprovesFollowers": "as:manuallyApprovesFollowers",
+      "focalPoint": { "@container": "@list", "@id": "toot:focalPoint" }
+    }
+  ],
+  "id": "https://test.cisti.org/federation/m/2#Announce-1774260784945",
+  "type": "Announce",
+  "actor": "https://test.cisti.org/federation/u/relay",
+  "to": ["https://www.w3.org/ns/activitystreams#Public"],
+  "cc": [
+    "https://mastodon.cisti.org/users/lesion",
+    "https://test.cisti.org/federation/u/relay/followers"
+  ],
+  "object": {
+    "id": "https://test.cisti.org/federation/m/2",
+    "name": "diocane",
+    "url": "https://test.cisti.org/event/diocane",
+    "type": "Event",
+    "eventStatus": "EventScheduled",
+    "startTime": "2026-04-22T11:48:00.000+02:00",
+    "location": [
+      {
+        "id": "https://test.cisti.org/federation/p/1",
+        "type": "Place",
+        "name": "asdasd",
+        "address": {
+          "type": "PostalAddress",
+          "streetAddress": "21a Via Antonio Cecchi",
+          "addressLocality": "Torino",
+          "addressRegion": "Piemonte",
+          "postalCode": "10100",
+          "addressCountry": "Italia"
+        },
+        "url": "https://test.cisti.org/place/1/asdasd",
+        "latitude": 45.0858958,
+        "longitude": 7.6818891
+      }
+    ],
+    "attachment": [],
+    "tag": [],
+    "published": "2026-03-18T10:35:18.198Z",
+    "updated": "2026-03-18T10:35:18.198Z",
+    "attributedTo": "https://test.cisti.org/federation/u/relay",
+    "to": ["https://www.w3.org/ns/activitystreams#Public"],
+    "content": "<p>cioa</p>",
+    "summary": "<p>asdasd, Wednesday, April 22 at 11:48 AM GMT+2</p><p>cioa</p>"
+  }
+}

@@ -1,0 +1,654 @@
+[
+  {
+    "name": "Gancio",
+    "url": "https://gancio.cisti.org",
+    "logo": "https://gancio.cisti.org/logo.png",
+    "place": "(Turin, Italy)",
+    "summary": "Agenda condivisa per Torino e dintorni",
+    "timezone": "Europe/Rome",
+    "handler": "gancio@gancio.cisti.org"
+  },
+  {
+    "name": "LaPunta",
+    "url": "https://lapunta.org",
+    "logo": "https://lapunta.org/logo.png",
+    "place": "(Florence, Italy)",
+    "summary": "Agenda condivisa del sottobosco autogestito toscano",
+    "timezone": "Europe/Rome",
+    "handler": "lapunta@lapunta.org"
+  },
+  {
+    "name": "Sa Pratza",
+    "url": "https://sapratza.in",
+    "logo": "https://sapratza.in//logo.png",
+    "place": "(Sardinia, Italy)",
+    "summary": "Agenda condivisa del sottobosco autogestito sardo",
+    "timezone": "Europe/Rome",
+    "handler": "Sa Pratza@sapratza.in"
+  },
+  {
+    "name": "Puntello",
+    "url": "https://puntello.org",
+    "logo": "https://puntello.org/logo.png",
+    "place": "(Milan, Italy)",
+    "summary": "Eventi e iniziative della Milano ribelle",
+    "timezone": "Europe/Rome",
+    "handler": null
+  },
+  {
+    "name": "LaSitua",
+    "url": "https://lasitua.org",
+    "logo": "https://lasitua.org/logo.png",
+    "place": "(Brescia, Italy)",
+    "summary": "Eventi a Brescia e delle Comunità Locali",
+    "timezone": "Europe/Rome",
+    "handler": "LaSitua@lasitua.org"
+  },
+  {
+    "name": "Balotta",
+    "url": "https://balotta.org",
+    "logo": "https://balotta.org/logo.png",
+    "place": "(Bologna, Italy)",
+    "summary": "Agenda condivisa per Bologna",
+    "timezone": "Europe/Rome",
+    "handler": "agenda@balotta.org"
+  },
+  {
+    "name": "gancio.daghe",
+    "url": "https://gancio.daghe.xyz",
+    "logo": "https://gancio.daghe.org/logo.png",
+    "place": "(Trento, Italy)",
+    "summary": "cosa succede in provincia",
+    "timezone": "Europe/Rome",
+    "handler": "gancio.daghe@gancio.daghe.xyz"
+  },
+  {
+    "name": "AttoppA",
+    "url": "https://www.attoppa.it",
+    "logo": "https://www.attoppa.it/logo.png",
+    "place": "(Catania, Italy)",
+    "summary": "Una agenda condivisa per la Sicilia orientale",
+    "timezone": "Europe/Rome",
+    "handler": "attoppa@www.attoppa.it"
+  },
+  {
+    "name": "c'ami fa?",
+    "url": "https://camifa.net",
+    "logo": "https://camifa.net/logo.png",
+    "place": "(Cosenza, Italy)",
+    "summary": "agenda condivisa per Cosenza e dintorni",
+    "timezone": "Europe/Rome",
+    "handler": "www.camifa.net@camifa.net"
+  },
+  {
+    "name": "JammeLa",
+    "url": "https://jamme.la",
+    "logo": "https://jamme.la/logo.png",
+    "place": "(Napoli, Italy)",
+    "summary": "Un'agenda condivisa per Napoli e dintorni",
+    "timezone": "Europe/Rome",
+    "handler": null
+  },
+  {
+    "name": "FuoriNellaNebbia",
+    "url": "https://www.fuorinellanebbia.it",
+    "logo": "https://www.fuorinellanebbia.it/logo.png",
+    "place": "(Ravenna e Ferrara, Italy)",
+    "summary": "Eventi tra Ferrara e Romagna",
+    "timezone": "Europe/Rome",
+    "handler": "relay@www.fuorinellanebbia.it"
+  },
+  {
+    "name": "Agenda Rete Appenninica",
+    "url": "https://agenda.reteappenninica.it",
+    "logo": "https://agenda.reteappenninica.it/logo.png",
+    "place": "(Appennini, Italy)",
+    "summary": "Agenda condivisa per l'appennino bolognese.\nLinee guida qui 👉 reteappenninica.it/linee-guida-per-lagenda\n[https://reteappenninica.it/linee-guida-per-lagenda/]",
+    "timezone": "Europe/Rome",
+    "handler": "gancio@agenda.reteappenninica.it"
+  },
+  {
+    "name": "REBALTÈLA",
+    "url": "https://rebaltela.org",
+    "logo": "https://rebaltela.org/logo.png",
+    "place": "(Verona, Italy)",
+    "summary": "Eventi del sottobosco autogestito veronese",
+    "timezone": "Europe/Rome",
+    "handler": null
+  },
+  {
+    "name": "Gancio de Roma ",
+    "url": "https://roma.convoca.la",
+    "logo": "https://roma.convoca.la/logo.png",
+    "place": "(Roma, Italy)",
+    "summary": "Agenda condivisa della Roma ribelle e autogestita",
+    "timezone": "Europe/Rome",
+    "handler": "relay@roma.convoca.la"
+  },
+  {
+    "name": "Scruscio",
+    "url": "https://scruscio.org",
+    "logo": "https://scruscio.org/logo.png",
+    "place": "(Palermo, Italy)",
+    "summary": "Un'agenda condivisa per Palermo e dintorni",
+    "timezone": "Europe/Rome",
+    "handler": "scruscio@scruscio.org"
+  },
+  {
+    "name": "Gancio",
+    "url": "https://gancio.invegendo.org",
+    "logo": "https://gancio.invegendo.org/logo.png",
+    "place": "(Genova, Italy)",
+    "summary": "Agenda condivisa delle realtà di Genova e dintorni",
+    "timezone": "Europe/Rome",
+    "handler": "gancio@gancio.invegendo.org"
+  },
+  {
+    "name": "sciam!",
+    "url": "https://sciamsciam.org",
+    "logo": "https://sciamsciam.org/logo.png",
+    "place": "(Basilicata, Italy)",
+    "summary": "agenda dal basso per la basilicata (e dintorni)",
+    "timezone": "Europe/Rome",
+    "handler": "ganciobas@sciamsciam.org"
+  },
+  {
+    "name": "Botép",
+    "url": "https://botep.org",
+    "logo": "https://botep.org/logo.png",
+    "place": "(Bergamo, Italy)",
+    "summary": "Agenda condivisa della Bergamo libera e ribelle",
+    "timezone": "Europe/Rome",
+    "handler": "relay@botep.org"
+  },
+  {
+    "name": "LaComunella Sabina",
+    "url": "https://sabina.convoca.la",
+    "logo": "http://sabina.convoca.la/logo.png",
+    "place": "(Rieti, Italy)",
+    "summary": "Agenda condivisa di eventi e iniziative in Sabina",
+    "timezone": "Europe/Rome",
+    "handler": "Scagno Sabina@sabina.convoca.la"
+  },
+  {
+    "name": "Meh!",
+    "url": "https://meh.convoca.la",
+    "logo": "http://meh.convoca.la/logo.png",
+    "place": "(Bari, Italy)",
+    "summary": "L'agenda di movimento di Bari e dintorni",
+    "timezone": "Europe/Rome",
+    "handler": "meh@meh.convoca.la"
+  },
+  {
+    "name": "lu citrone",
+    "url": "https://lucitr.one",
+    "logo": "https://lucitr.one/logo.png",
+    "place": "(L'Aquila, Italy)",
+    "summary": "semini per la tua agendina abruzzese molto Militante",
+    "timezone": "Europe/Rome",
+    "handler": "relay@lucitr.one"
+  },
+  {
+    "name": "Convoca-la BCN",
+    "url": "https://bcn.convoca.la",
+    "logo": "https://bcn.convoca.la/logo.png",
+    "place": "(Barcelona, Spain)",
+    "summary": "Agenda activista i cultural",
+    "timezone": "Europe/Andorra",
+    "handler": "agenda@bcn.convoca.la"
+  },
+  {
+    "name": "Gancio",
+    "url": "https://burgos.convoca.la",
+    "logo": "https://burgos.convoca.la/logo.png",
+    "place": "(Burgos, Castilla y León, Spain)",
+    "summary": "A shared agenda for local communities",
+    "timezone": "Europe/Rome",
+    "handler": "relay@burgos.convoca.la"
+  },
+  {
+    "name": "Convoca-la Eivissa i Formentera",
+    "url": "https://eif.convoca.la",
+    "logo": "https://eif.convoca.la/logo.png",
+    "place": "(Eivissa i Formentera, Spain)",
+    "summary": "",
+    "timezone": "Europe/Madrid",
+    "handler": "relay@eif.convoca.la"
+  },
+  {
+    "name": "Convócala Madrid",
+    "url": "https://mad.convoca.la",
+    "logo": "https://mad.convoca.la/logo.png",
+    "place": "(Madrid, Spain)",
+    "summary": "Agenda activista y cultural autogestionada",
+    "timezone": "Europe/Madrid",
+    "handler": "madrid@mad.convoca.la"
+  },
+  {
+    "name": "Convoca-la Mallorca",
+    "url": "https://mallorca.convoca.la",
+    "logo": "https://mallorca.convoca.la/logo.png",
+    "place": "(Mallorca, Spain)",
+    "summary": "",
+    "timezone": "Europe/Madrid",
+    "handler": "relay@mallorca.convoca.la"
+  },
+  {
+    "name": "Tramuntana",
+    "url": "https://tramuntana.convoca.la",
+    "logo": "https://tramuntana.convoca.la/logo.png",
+    "place": "(Girona, Spain)",
+    "summary": "Agenda dels moviments socials de les terres gironines",
+    "timezone": "Europe/Madrid",
+    "handler": null
+  },
+  {
+    "name": "Zaragoza",
+    "url": "https://zgz.convoca.la",
+    "logo": "https://zgz.convoca.la/logo.png",
+    "place": "(Zaragoza, Spain)",
+    "summary": "Agenda colectiva, autónoma y combativa",
+    "timezone": "Europe/Madrid",
+    "handler": "zgz@zgz.convoca.la"
+  },
+  {
+    "name": "Agenda del Henares",
+    "url": "https://agenda.henares.org",
+    "logo": "https://agenda.henares.org/logo.png",
+    "place": "(Valle del Henares, Spain)",
+    "summary": "Agenda activista y cultural autogestionada del Valle del Henares",
+    "timezone": "Europe/Madrid",
+    "handler": "calendario@agenda.henares.org"
+  },
+  {
+    "name": "Eventos Murcia",
+    "url": "https://eventosmurcia.org",
+    "logo": "https://eventosmurcia.org/logo.png",
+    "place": "(Murcia, Spain)",
+    "summary": "Agenda compartida para las asociaciones locales",
+    "timezone": "Europe/Madrid",
+    "handler": "relay@eventosmurcia.org"
+  },
+  {
+    "name": "enredad·es",
+    "url": "https://enredad.es",
+    "logo": "https://enredad.es/logo.png",
+    "place": "(Queer/Feminist/Racialized-Events, Spain)",
+    "summary": "donde los márgenes son el centro",
+    "timezone": "Europe/Madrid",
+    "handler": "relay@enredad.es"
+  },
+  {
+    "name": "ALÉ ! ",
+    "url": "https://www.aleale.org",
+    "logo": "https://www.aleale.org/logo.png",
+    "place": "(Montpellier)",
+    "summary": "Agenda pour les Luttes Émancipatrices (Montpellier et alentours)",
+    "timezone": "Europe/Paris",
+    "handler": "ale@www.aleale.org"
+  },
+  {
+    "name": "Agenda des monts d'Arrée",
+    "url": "https://agenda.arree.bzh",
+    "logo": "https://agenda.arree.bzh/logo.png",
+    "place": "(Monts d'Arrée, Bretagne)",
+    "summary": "l'agenda partagé des collectifs de l'Arrée",
+    "timezone": "Europe/Paris",
+    "handler": "relay@agenda.arree.bzh"
+  },
+  {
+    "name": "LA MANIFESTIVE 68",
+    "url": "https://lamanifestive.fr",
+    "logo": "https://lamanifestive.fr/logo.png",
+    "place": "(Social and cultural events of south-alsace, France)",
+    "summary": "AGENDA SOCIAL, CULTUREL ET SOLIDAIRE DU SUD-ALSACE. MANIFESTEZ-VOUS, C'EST\nGRATUIT !",
+    "timezone": "Europe/Paris",
+    "handler": "relay@lamanifestive.fr"
+  },
+  {
+    "name": "Agenda des Luttes Rouen",
+    "url": "https://agenda.rouen-luttes.org",
+    "logo": "https://agenda.rouen-luttes.org/logo.png",
+    "place": "(Rouen)",
+    "summary": "Agenda militant pour les luttes sociales et émancipatrices - Rouen et alentours",
+    "timezone": "Europe/Paris",
+    "handler": "relay@agenda.rouen-luttes.org"
+  },
+  {
+    "name": "RheinMainEvents",
+    "url": "https://events.rheinmain.social",
+    "logo": "https://events.rheinmain.social/logo.png",
+    "place": "(Rheinmain)",
+    "summary": "Ein unabhängiger Mitmach-Kalender für das Rhein-Main Gebiet.",
+    "timezone": "Europe/Berlin",
+    "handler": "events@events.rheinmain.social"
+  },
+  {
+    "name": "calndr.de",
+    "url": "https://calndr.de",
+    "logo": "https://calndr.de/logo.png",
+    "summary": "eventkalender",
+    "timezone": "Europe/Berlin",
+    "handler": "relay@calndr.de"
+  },
+  {
+    "name": "Bonn.jetzt",
+    "url": "https://bonn.jetzt",
+    "logo": "https://bonn.jetzt/logo.png",
+    "place": "(Digital-Events aus Bonn, Rhein-Sieg und der Region)",
+    "summary": "Events aus Bonn, Rhein-Sieg und Region, kostenlos und ohne Account\nVeranstaltungen hinzufügen und mit dem Kalender deiner Wahl teilen. Folge\nBonn.jetzt! @bonnjetzt@bonn.jetzt",
+    "timezone": "Europe/Berlin",
+    "handler": "bonnjetzt@bonn.jetzt"
+  },
+  {
+    "name": "Gancio BlablaLinux",
+    "url": "https://gancio.blablalinux.be",
+    "logo": "https://gancio.blablalinux.be/logo.png",
+    "summary": "Gancio est un agenda partagé pour les communautés locales, avec le soutien\nd'ActivityPub",
+    "timezone": "Europe/Brussels",
+    "handler": "events@gancio.blablalinux.be"
+  },
+  {
+    "name": "Flying High Bonn",
+    "url": "https://flyinghigh-bonn.org",
+    "logo": "https://flyinghigh-bonn.org/logo.png",
+    "place": "(resistant and subcultural events in and around Bonn.)",
+    "summary": "Selbstorganisierter Veranstaltungskalender für widerständige und subkulturelle\nEreignisse in und um Bonn.",
+    "timezone": "Europe/Berlin",
+    "handler": "relay@flyinghigh-bonn.org"
+  },
+  {
+    "name": "gancio.graz.events",
+    "url": "https://gancio.graz.events",
+    "logo": "https://gancio.graz.events/logo.png",
+    "place": "(Verein zur Förderung ethischer Digitalkultur)",
+    "summary": "Gancio [https://gancio.org/]-Instanz von graz.social – Verein zur Förderung\nethischer Digitalkultur [https://info.graz.social/verein]\n\nHier können ohne Account Veranstaltungen veröffentlicht werden. Außerdem folgt\ndiese Platform anderen Accounts, und zeigt dessen Veranstaltungen ebenfalls an.\nMehr Informationen gibt es unten in der Fußleiste.",
+    "timezone": "Europe/Vienna",
+    "handler": "gancio.graz.events@gancio.graz.events"
+  },
+  {
+    "name": "Bilbo Zaharreko Agenda",
+    "url": "https://www.bilbi.info",
+    "logo": "https://www.bilbi.info/logo.png",
+    "place": "(barrio Bilbao La Vieja, San Francisco y Zabala, Spain)",
+    "summary": "Actividades de los movimientos sociales del barrio Bilbao La Vieja, San\nFrancisco y Zabala",
+    "timezone": "Europe/Madrid",
+    "handler": "agenda@www.bilbi.info"
+  },
+  {
+    "name": "calendari.cc",
+    "url": "https://calendari.cc",
+    "logo": "https://calendari.cc/logo.png",
+    "place": "(Valencia, Spain)",
+    "summary": "Agenda llibertària de València",
+    "timezone": "Europe/Madrid",
+    "handler": "calendari.cc@calendari.cc"
+  },
+  {
+    "name": "infoAtes",
+    "url": "https://infoates.cat",
+    "logo": "https://infoates.cat/logo.png",
+    "place": "(Catalunya Central, Spain)",
+    "summary": "Agenda d'activitats de casals, ateneus, estructures populars i col·lectius de\nl'esquerra anticapitalista de la Catalunya Central",
+    "timezone": "Europe/Madrid",
+    "handler": "relay@infoates.cat"
+  },
+  {
+    "name": "MONTREAL Ask A Punk",
+    "url": "https://montreal.askapunk.net",
+    "logo": "https://montreal.askapunk.net/logo.png",
+    "place": "(Montreal)",
+    "summary": "Montreal DIY, punk, hardcore",
+    "timezone": "Canada/Eastern",
+    "handler": "shows@montreal.askapunk.net"
+  },
+  {
+    "name": "CalendriGeek ",
+    "url": "https://calendrigeek.com",
+    "logo": "https://calendrigeek.com/logo.png",
+    "place": "(Abitibi-Témiscamingue, Québec, Canada)",
+    "summary": "Agenda sur la culture geek en Abitibi-Témiscamingue et en Jamésie - transformez\nle bouche à oreille en partageant ici",
+    "timezone": "America/New_York",
+    "handler": null
+  },
+  {
+    "name": "La Kelo Gaztetxea",
+    "url": "https://lakelogaztetxea.net",
+    "logo": "https://www.lakelogaztetxea.net/logo.png",
+    "place": "(Bilbo, Spain)",
+    "summary": "Egutegia",
+    "timezone": "Europe/Andorra",
+    "handler": "egutegia@lakelogaztetxea.net"
+  },
+  {
+    "name": "eventos.coletivos.org",
+    "url": "https://eventos.coletivos.org",
+    "logo": "https://eventos.coletivos.org/logo.png",
+    "summary": "A agenda de eventos livres e inclusivxs sem ânimo de lucro, sem bandeiras nem\npartidos.",
+    "timezone": "Europe/Lisbon",
+    "handler": "info@eventos.coletivos.org"
+  },
+  {
+    "name": "Calendario XR",
+    "url": "https://calendario.extinctionrebellion.es",
+    "logo": "https://calendario.extinctionrebellion.es/logo.png",
+    "place": "(Spain)",
+    "summary": "Una agenda de todos los eventos rebeldes a nivel estatal",
+    "handler": null
+  },
+  {
+    "name": "Laboratório Hacker de Campinas",
+    "url": "https://eventos.lhc.net.br",
+    "logo": "https://eventos.lhc.net.br/logo.png",
+    "place": "(Campinas)",
+    "summary": "Agenda de Eventos do Laboratório Hacker de Campinas",
+    "timezone": "America/Sao_Paulo",
+    "handler": "agenda@eventos.lhc.net.br"
+  },
+  {
+    "name": "berlin.askapunk.de",
+    "url": "https://berlin.askapunk.de",
+    "logo": "https://berlin.askapunk.de/logo.png",
+    "place": "(diy shows and similar events in berlin)",
+    "summary": "a collective calendar for diy shows and more. feel free to add stuff.",
+    "timezone": "Europe/Rome",
+    "handler": "relay@berlin.askapunk.de"
+  },
+  {
+    "name": "offbeat amsterdam",
+    "url": "https://offbeat.amsterdam",
+    "logo": "https://offbeat.amsterdam/logo.png",
+    "place": "(Amsterdam)",
+    "summary": "Amsterdam's alternative agenda. Experimental gigs, activist talks, secret\ncinema, DIY workshops, radical poetry, comedy haha, and dance dance dance.\nAlways off the radar, definitely not beige ❌❌❌",
+    "timezone": "Europe/Amsterdam",
+    "handler": "relay@offbeat.amsterdam"
+  },
+  {
+    "name": "Koledar Kompot",
+    "url": "https://koledar.kompot.si",
+    "logo": "https://koledar.kompot.si/logo.png",
+    "place": "(Ljubljana, Slovenia)",
+    "summary": "Gmajna lokalnega dogajanja",
+    "timezone": "Europe/Ljubljana",
+    "handler": "relay@koledar.kompot.si"
+  },
+  {
+    "name": "vagancio pirato",
+    "url": "https://vagancio.partidopirata.com.ar",
+    "logo": "https://vagancio.partidopirata.com.ar/logo.png?1779191987906",
+    "place": "(Buenos Aires, Argentina)",
+    "summary": "agenda popular",
+    "timezone": "America/Argentina/Buenos_Aires",
+    "handler": "relay@vagancio.partidopirata.com.ar"
+  },
+  {
+    "name": "kinkcalendar.site",
+    "url": "https://kinkcalendar.site",
+    "logo": "https://kinkcalendar.site/logo.png",
+    "place": "(kink, BDSM and fetish community)",
+    "summary": "Shared agenda for the kink, BDSM and fetish community.",
+    "timezone": "Europe/Lisbon",
+    "handler": "agenda@kinkcalendar.site"
+  },
+  {
+    "name": "Red de Antroposofía Chile",
+    "url": "https://gancio.antroposofiachile.net",
+    "logo": "https://gancio.antroposofiachile.net/logo.png",
+    "place": "(Red de Eventos de Antroposofía en Chile)",
+    "summary": "Calendario de Eventos",
+    "timezone": "America/Santiago",
+    "handler": "relay@gancio.antroposofiachile.net"
+  },
+  {
+    "name": "Eventos Valle de Pelumpén (Limache y Olmué)",
+    "url": "https://eventos.pelumpen.com",
+    "logo": "https://eventos.pelumpen.com/logo.png",
+    "place": "(Red de eventos del Valle de Pelumpén; Limache y Olmué, V Región, Chile)",
+    "summary": "Fortalecer la cultura local de la comunidad de Limache y Olmué, el valle del\nEstero Pelumpén",
+    "timezone": "America/Santiago",
+    "handler": "relay@eventos.pelumpen.com"
+  },
+  {
+    "name": "What's On Clonmel",
+    "url": "https://calendar.clonmel.town",
+    "logo": "https://calendar.clonmel.town/logo.png",
+    "place": "(What's On Clonmel; Local events guide, Ireland)",
+    "summary": "Weekly guide to events and entertainment",
+    "timezone": "Europe/Dublin",
+    "handler": "events@calendar.clonmel.town"
+  },
+  {
+    "name": "Keep Karlsruhe Boring...",
+    "url": "https://keepkarlsruheboring.org",
+    "logo": "https://keepkarlsruheboring.org/logo.png",
+    "place": "(Karlsruhe, Germany)",
+    "summary": "as long as you can, because we will not",
+    "timezone": "Europe/Rome",
+    "handler": "relay@keepkarlsruheboring.org"
+  },
+  {
+    "name": "Agenda Combativa de Castelló",
+    "url": "https://castello.convoca.la",
+    "logo": "https://castello.convoca.la/logo.png",
+    "place": "(Castelló)",
+    "summary": "L'agenda local de les comarques de Castelló",
+    "timezone": "Europe/Rome",
+    "handler": "relay@castello.convoca.la"
+  },
+  {
+    "name": "Hacker Convoca.la",
+    "url": "https://hacker.convoca.la",
+    "logo": "https://hacker.convoca.la/logo.png",
+    "summary": "A shared agenda for hack* events",
+    "timezone": "Europe/Rome",
+    "handler": "follow@hacker.convoca.la"
+  },
+  {
+    "name": "Málaga Convócala",
+    "url": "https://mlg.convoca.la",
+    "logo": "https://mlg.convoca.la/logo.png",
+    "place": "(Málaga)",
+    "summary": "Agenda social y cultural autogestionada",
+    "timezone": "Europe/Madrid",
+    "handler": "relay@mlg.convoca.la"
+  },
+  {
+    "name": "Decentralizované Eventy",
+    "url": "https://devent.cz",
+    "logo": "https://devent.cz/logo.png",
+    "place": "(Czech Republic)",
+    "summary": "Decentralized event sharing and discovery in the Czech Republic.",
+    "timezone": "Europe/Prague",
+    "handler": "info@devent.cz"
+  },
+  {
+    "name": "Agenda militant du Loiret",
+    "url": "https://agendamilitantloiret.emancipe.org",
+    "logo": "https://agendamilitantloiret.emancipe.org/logo.png",
+    "place": "(Loiret, France)",
+    "summary": "Agenda participatif",
+    "timezone": "Europe/Paris",
+    "handler": "agenda@agendamilitantloiret.emancipe.org"
+  },
+  {
+    "name": "RezoneK",
+    "url": "https://rezonek.fr",
+    "logo": "https://rezonek.fr/logo.png",
+    "place": "(Ouest-Cornouaille - Finistère, France)",
+    "summary": "Agenda partagé de concerts, spectacles et évènements festifs\nen ouest-Cornouaille (Cap Sizun, Pays Bigoud' & Pays de Douarnenez)",
+    "timezone": "Europe/Paris",
+    "handler": "relay@rezonek.fr"
+  },
+  {
+    "name": "AKCE.NOLOG.CZ",
+    "url": "https://akce.nolog.cz",
+    "logo": "https://akce.nolog.cz/logo.png",
+    "place": "(Czech Republic)",
+    "summary": "Stránka pro sdílení politických akcí",
+    "timezone": "Europe/Prague",
+    "handler": "Levicove_Akce@akce.nolog.cz"
+  },
+  {
+    "name": "Agenda Autónoma",
+    "url": "https://autonoma.red",
+    "logo": "https://autonoma.red/logo.png",
+    "place": "(Bogotá, Colombia)",
+    "summary": "Bogotá",
+    "timezone": "America/Bogota",
+    "handler": "agenda@autonoma.red"
+  },
+  {
+    "name": "Agenda Subterrania",
+    "url": "https://agenda.subterrania.es",
+    "logo": "https://agenda.subterrania.es/logo.png",
+    "place": "(Cantabria, Spain)",
+    "summary": "Agenda colaborativa de conciertos y eventos independientes en Cantabria",
+    "timezone": "Europe/Madrid",
+    "handler": "agenda@agenda.subterrania.es"
+  },
+  {
+    "name": "Carbondale Community Calendar",
+    "url": "https://carbondale.info",
+    "logo": "https://www.carbondale.info/logo.png",
+    "place": "Carbondale, Illinois",
+    "summary": "A shared calendar for the alternative and diy community in Carbondale",
+    "timezone": "America/Chicago",
+    "handler": "relay@carbondale.info"
+  },
+  {
+    "name": "Convoca-la alternativa",
+    "url": "https://emporda.figueres.social",
+    "logo": "https://emporda.figueres.social/logo.png",
+    "place": "Figueres, Empordà",
+    "summary": "Calendari empordanès dels moviments socials",
+    "timezone": "Europe/Paris",
+    "handler": "relay@emporda.figueres.social"
+  },
+  {
+    "name": "The Trans Agenda™",
+    "url": "https://queerleven.be",
+    "logo": "https://queerleven.be/logo.png",
+    "place": "Belgium",
+    "summary": "A shared agenda by and for the belgian trans* community",
+    "timezone": "Europe/Brussels",
+    "handler": "relay@queerleven.be"
+  },
+  {
+    "name": "Sottosuolo",
+    "url": "https://sottosuolo.ch",
+    "logo": "https://sottosuolo.ch/logo.png",
+    "place": "(Alpi meridionali, Switzerland)",
+    "summary": "Agenda condivisa del sottosuolo autogestito del sud delle Alpi.",
+    "timezone": "Europe/Rome",
+    "handler": null
+  },
+  {
+    "name": "Fuori.org",
+    "url": "https://fuori.org",
+    "logo": "http://fuori.org/logo.png",
+    "place": "(Belluno, Italy)",
+    "summary": "Agenda condivisa per Belluno e dintorni",
+    "timezone": "Europe/Rome",
+    "handler": "Fuori.org@fuori.org"
+  }
+]

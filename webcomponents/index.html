@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" href="/favicon.ico" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Gancio Events Custom Element Demo</title>
+    <style>
+      body {
+        font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont,
+          'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans', sans-serif,
+          'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol',
+          'Noto Color Emoji';
+      }
+
+      label {
+        display: block;
+        margin: 0px;
+        padding: 10px;
+      }
+
+      #demo {
+        display: flex;
+        gap: 20px;
+      }
+    </style>
+  </head>
+  <body>
+
+    <script>
+      var theme = 'light';
+      var sidebar = 'true';
+      var show_more = 'true';
+      function toggleDark() {
+        var items = document.getElementsByTagName('gancio-events');
+        theme = theme === 'dark' ? 'light' : 'dark';
+        items[0].setAttribute('theme', theme );
+      }
+    
+      function toggleSidebar() {
+        var items = document.getElementsByTagName('gancio-events');
+        sidebar = sidebar === 'true' ? 'false' : 'true';
+        items[0].setAttribute('sidebar', sidebar );
+      }
+    
+    
+      function changeMax(value) {
+        var items = document.getElementsByTagName('gancio-events');
+        items[0].setAttribute('maxlength', value);
+      }
+    
+      function changeHeight(value) {
+        var items = document.getElementsByTagName('gancio-events');
+        items[0].setAttribute('max_height', value);
+      }
+    
+      function changeTitle (title) {
+        var items = document.getElementsByTagName('gancio-events');
+        items[0].setAttribute('title', title)
+      }
+      
+      function toggleShowMore() {
+        var items = document.getElementsByTagName('gancio-events');
+        show_more = show_more === 'true' ? 'false' : 'true';
+        items[0].setAttribute('show_more', show_more );
+      }
+
+      function changeDefaultURL(value) {
+        var baseurl = document.getElementById('baseurl');
+        changeBaseURL(value);
+        baseurl.value = value;
+      }
+      
+      function changeBaseURL(value) {
+        var items = document.getElementsByTagName('gancio-events');
+        items[0].setAttribute('baseurl', value);
+        console.error('Changing base URL to ' + value);
+      }
+    </script>
+    
+    <h1>Gancio Events Custom Element Demo</h1>
+    <div id='demo'>
+      
+      <aside>
+        <label>Title <input value='Gancio' type='text' onkeyup="changeTitle(this.value)"/></label>
+        <label><input type='checkbox' onchange="toggleDark()"/> Dark</label>
+        <label><input type='checkbox' checked onchange="toggleSidebar()"/> Sidebar</label>
+        <label><input type='checkbox' checked onchange="toggleShowMore()"/> Show More</label>
+        <label>Max items <input value=4 type='number' label='Max items' onchange="changeMax(this.value)"/></label>
+        <label>Max inner height <input value="50vh" label='Max inner height' onchange="changeHeight(this.value)"/></label>
+        <select onchange="changeDefaultURL(this.value)">
+          <option value="https://gancio.cisti.org">Gancio</option>
+          <option value="https://lapunta.org">LaPunta</option>
+          <option value="https://demo.gancio.org">Demo</option>
+        </select>
+        <label>Instance <input id='baseurl' value="https://gancio.cisti.org" label="Instance" oninput="changeBaseURL(value)"/></label>
+      </aside>
+    
+      <gancio-events
+        title='Gancio'
+        sidebar='true'
+        theme='light'
+        show_more='true'
+        max_height='50vh'
+        maxlength=4
+        baseurl='https://gancio.cisti.org'
+      />
+
+    </div>    
+    <!--<gancio-events baseurl='https://demo.gancio.org' show_more title='demo' theme='light' maxlength="3" show_recurrent='true' external_style='gancio.css'></gancio-events>
+    <br/>
+    <gancio-events baseurl='https://gancio.cisti.org' title='La punta' theme='dark' maxlength="3" show_recurrent='true'></gancio-events>
+    <br/>
+    <gancio-events baseurl='https://gancio.cisti.org' show_more maxlength="3" sidebar='false' show_recurrent='true'></gancio-events>-->
+    <!-- <gancio-event id=1 baseurl='http://localhost:13120'></gancio-event> -->
+    <script type="module" src="/src/main.js"></script>
+  </body>
+</html>

@@ -1,0 +1,17 @@
+{
+  "@context": [
+    "https://www.w3.org/ns/activitystreams",
+    "https://w3id.org/fep/8a8e",
+    "https://schema.org",
+    {
+      "toot": "http://joinmastodon.org/ns#",
+      "Hashtag": "https://www.w3.org/ns/activitystreams#Hashtag",
+      "manuallyApprovesFollowers": "as:manuallyApprovesFollowers",
+      "focalPoint": { "@container": "@list", "@id": "toot:focalPoint" }
+    }
+  ],
+  "attributedTo": "http://localhost:13120/federation/u/alice",
+  "name": "Minimal event",
+  "startTime": "2026-02-12T00:00:00.000+01:00",
+  "endTime": "2026-02-12T01:00:00.000+01:00"
+}

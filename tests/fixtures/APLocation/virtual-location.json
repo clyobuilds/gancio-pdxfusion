@@ -1,0 +1,6 @@
+{
+  "id" : "https://virtual.location.org",
+  "name" : "A Virtual location",
+  "type": "VirtualLocation",
+  "url": "https://virtual.location.org"
+}

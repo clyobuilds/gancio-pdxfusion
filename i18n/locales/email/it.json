@@ -1,0 +1,35 @@
+{
+    "register": {
+        "subject": "Richiesta registrazione ricevuta",
+        "content": "Abbiamo ricevuto la richiesta di registrazione, la confermeremo quanto prima.<br/>Ciao."
+    },
+    "confirm": {
+        "subject": "Puoi iniziare a pubblicare eventi",
+        "content": "Ciao, il tuo account su <a href='{{{config.baseurl}}}'>{{config.title}}</a> è stato confermato.<br/> Scrivici a {{config.admin_email}} per qualsiasi informazione."
+    },
+    "user_confirm": {
+        "subject": "Puoi iniziare a pubblicare eventi",
+        "content": "Ciao, il tuo account su <a href='{{{config.baseurl}}}'>{{config.title}}</a> è stato creato.<br/> <a href='{{{config.baseurl}}}/user_confirm/{{user.recover_code}}'>Confermalo e scegli una password</a>."
+    },
+    "recover": {
+        "subject": "Recupero password",
+        "content": "Ciao, hai richiesto un recupero della password su {{config.title}}.<br/> <a href='{{{config.baseurl}}}/recover/{{user.recover_code}}'>Premi qui</a> per confermare."
+    },
+    "admin_register": {
+        "subject": "Nuova registrazione",
+        "content": "{{user.email}} si è registratǝ a {{config.title}} scrivendo:<br/><pre>{{user.description}}</pre><br/> Puoi confermarlo <a href='{{{config.baseurl}}}/admin'>qui</a>."
+    },
+    "event_confirm": {
+        "content": "Puoi confermare questo evento premendo il tasto conferma in <a href='{{{url}}}'>questa pagina</a>"
+    },
+    "test": {
+        "subject": "La tua configurazione SMTP sta funzionando",
+        "content": "Questa è una email di test, se la stai leggendo significa che la tua configurazione sta funzionando."
+    },
+    "report": {
+        "subject": "Segnalazione evento [{{event.title}}]",
+        "content_ADMIN": "Una persona con permessi di amministrazione ha commentato l'evento <strong>{{event.title}}</strong>:<br/><blockquote>{{message}}</blockquote><br/><br/><a href='{{{url}}}'>Apri moderazione</a>",
+        "content_ANON": "Una persona ha commentato l'evento <strong>{{event.title}}</strong>:<br/><blockquote>{{message}}</blockquote><br/><br/><a href='{{{url}}}'>Apri la moderazione</a>",
+        "content_AUTHOR": "Chi ha inserito l'evento <strong>{{event.title}}</strong> ha scritto:<br/><blockquote>{{message}}</blockquote><br/><br/><a href='{{{url}}}'>Apri evento</a>"
+    }
+}

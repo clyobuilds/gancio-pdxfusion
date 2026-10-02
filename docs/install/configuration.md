@@ -1,0 +1,79 @@
+# Configuration
+`gancio` configuration is done during installation process but you can change it editing the configuration file.
+The configuration file shoud be a `.json` or a `.js` file and could be specified using the `--config` flag.
+
+- <small>eg. `gancio start --config ./config.json`</small>
+
+## Server
+
+```json
+"server": {
+    "host": "localhost",
+    "port": 13120
+}
+```
+
+## Database
+DB configuration, look [here](https://sequelize.org/v6/class/src/sequelize.js~Sequelize.html#instance-constructor-constructor) for options.
+```json
+  "db": {
+    "dialect": "sqlite",
+    "storage": "/tmp/db.sqlite"
+  }
+```
+## Upload path
+Where to save images  
+`"upload_path": "./uploads"`
+
+## Plugins path
+Where to search for [plugins](/usage/plugins)  
+`"plugins_path": "./plugins"`
+
+## User locale
+Probably you want to modify some text for your specific community, that's
+why we thought the `user_locale` configuration: you can specify your version of
+each string of **gancio** making a directory with your locales inside.
+For example, let's say you want to modify the text shown during registration:  
+`mkdir /opt/gancio/user_locale`  
+
+put something like this in `/opt/gancio/user_locale/en.json` to override the registration description in
+english:  
+```json
+{
+  "register": {
+    "description": "My new registration page description"
+  }
+}
+```  
+and then point the `user_locale` configuration to that directory (in your `config.json`):  
+```json
+"user_locale": "/opt/gancio/user_locale"
+```  
+Watch [here](https://framagit.org/les/gancio/tree/master/locales) for a
+list of strings you can override.
+
+::: warning Restart needed
+Note that a restart is needed when you change user_locale's content.
+:::
+
+<!--
+## Proxy
+Proxy outward request from gancio.
+Look [here](https://www.npmjs.com/package/https-proxy-agent) for options.
+Note: `hostname` option takes precedence over `host`.
+
+```json
+"proxy": {
+    "protocol": "http:",
+    "hostname": "",
+    "host": "127.0.0.1",
+    "port": "8118",
+    "auth": {
+      "username": "user",
+      "password": "password"
+    },
+    "headers": {
+      "X-Proxy-Header": "example"
+    }
+}
+```-->

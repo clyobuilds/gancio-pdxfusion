@@ -1,0 +1,24 @@
+[
+  {
+    "id" : "http://localhost:13120/federation/p/4",
+    "name" : "Location with a name",
+    "type" : "Place"
+  },
+  {
+    "id" : "http://localhost:13120/federation/p/5",
+    "name" : "A second location with a name",
+    "type" : "Place"    
+  },
+  {
+    "id" : "https://virtual.location.org",
+    "name" : "A Virtual location",
+    "type": "VirtualLocation",
+    "url": "https://virtual.location.org"
+  },
+  {
+    "id" : "https://a.second.fallback.virtual.location.org",
+    "name" : "A Fallback Virtual location",
+    "type": "VirtualLocation",
+    "url": "https://a.second.fallback.virtual.location.org"
+  }
+]

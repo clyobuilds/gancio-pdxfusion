@@ -1,0 +1,657 @@
+openapi: 3.1.0
+info:
+  title: 'gancio'
+  version: '2.0.0'
+  description: 'Gancio API'
+servers:
+  - url: https://demo.gancio.org
+    description: Demo
+components:
+  securitySchemes:
+    bearerAuth:
+      description: Bearer token using a JWT
+      type: http
+      scheme: Bearer
+      bearerFormat: JWT
+  schemas:
+    Announcement:
+      type: object
+      properties:
+        id:
+          type: integer
+          description: Announcement identifier.
+          example: 1
+        createdAt:
+          type: string
+          description: Datetime when announcement was created.
+          example: 2020-01-29T18:10:16.630Z
+        updatedAt:
+          type: string
+          description: Datetime when announcement was updated last time.
+          example: 2020-01-30T22:42:14.789Z
+        title:
+          type: string
+          description: Announcement title.
+          example: Announcement title
+        announcement:
+          type: string
+          description: Announcement text.
+          example: Announcement text
+        visible:
+          type: boolean
+          description: Indicates if an announcement is visible or not.
+          example: true
+    APActor:
+      type: object
+      description: AP Actor object. See <a href="https://www.w3.org/TR/activitypub/#actors">https://www.w3.org/TR/activitypub/#actors</a>
+    APEvent:
+      type: object
+      description: AP Event object. See <a href="https://fediverse.codeberg.page/fep/fep/8a8e/">https://fediverse.codeberg.page/fep/fep/8a8e/</a>.
+    APNote:
+      type: object
+      description: AP Note object.
+    APUser:
+      type: object
+      properties:
+        ap_id:
+          type: string
+          description: AP user identifier
+          example: AP_USER_ID
+        createdAt:
+          type: string
+          description: Datetime when AP user was created.
+          example: 2020-01-29T18:10:16.630Z
+        updatedAt:
+          type: string
+          description: Datetime when AP user was updated last time.
+          example: 2020-01-30T22:42:14.789Z
+        follower:
+          type: boolean
+          description: Indicates if AP user is a follower or not.
+          example: false
+        following:
+          type: boolean
+          description: Indicates if AP user following or not.
+          example: false
+        trusted:
+          type: boolean
+          description: Indicates if AP user is trusted or not.
+          example: false
+        blocked:
+          type: boolean
+          description: Indicates if AP user is blocked or not.
+          example: false
+        object:
+          $ref: '#/components/schemas/APActor'
+        instanceDomain:
+          type: string
+        instance:
+          $ref: '#/components/schemas/Instance'
+        events:
+          type: array
+          items:
+            $ref: '#/components/schemas/Event'
+        resources:
+          type: array
+          items:
+            $ref: '#/components/schemas/Resource'
+    Collection:
+      type: object
+      properties:
+        id:
+          type: integer
+          description: Collection identifier.
+          example: 2
+        name:
+          type: string
+          description: Collection name.
+          example: Collection name
+        isActor:
+          type: boolean
+          description: Indicates if the collection is an AP actor or not.
+          example: false
+        isTop:
+          type: boolean
+          description: Indicates if the collection is pinned at home page or not.
+          example: false
+        sortIndex:
+          type: integer
+          description: Order in the list of collections.
+          example: 12
+        createdAt:
+          type: string
+          description: Datetime when collection was created.
+          example: 2020-01-29T18:10:16.630Z
+        updatedAt:
+          type: string
+          description: Datetime when collection was updated last time.
+          example: 2020-01-30T22:42:14.789Z
+    Event:
+      type: object
+      properties:
+        id:
+          type: integer
+          description: Event identifier.
+          example: 1
+        createdAt:
+          type: string
+          description: Datetime when event was created.
+          example: 2020-01-29T18:10:16.630Z
+        updatedAt:
+          type: string
+          description: Datetime when event was updated last time.
+          example: 2020-01-30T22:42:14.789Z
+        title:
+          type: string
+          description: Event title.
+          example: Event title
+        status:
+          $ref: '#/components/schemas/EventStatus'
+        slug:
+          type: string
+          description: Event slug.
+          example: event-slug
+        start_datetime:
+          type: integer
+          description: Datetime when event starts.
+          example: 1784109600
+        end_datetime:
+          type: integer
+          description: Datetime when event ends.
+          example: 1784131200
+        media:
+          type: array
+          items:
+            $ref: '#/components/schemas/Media'
+        description:
+          type: string
+          description: Event description.
+          example: Event description
+        is_visible:
+          type: boolean
+          description: Indicates if the event is a draft (not visible) or not.
+          example: true
+        online_locations:
+          type: array
+          items:
+            type: string
+          description: List of URLs of online locations.
+          example:
+            - https://event.online
+            - https://eventalt.online
+        recurrent:
+          $ref: '#/components/schemas/Recurrent'
+        ld_signature:
+          $ref: '#/components/schemas/LDSignature'
+        ap_object:
+          type: object
+          description: AP event object.
+        likes:
+          type: array
+          items:
+            type: object
+          description: List with event likes.
+        boost:
+          type: array
+          items:
+            type: object
+          description: List with event boosts.
+        ap_id:
+          type: string
+          description: AP identifier.
+          example: AP_ID
+        userId:
+          type: integer
+          description: Identifier of the user's event.
+          example: 3
+        user:
+          $ref: '#/components/schemas/User'
+        parentId:
+          type: integer
+          description: Parent identifier.
+          example: 23
+        parent:
+          $ref: '#/components/schemas/Event'
+        children:
+          type: array
+          items:
+            $ref: '#/components/schemas/Event'
+        placeId:
+          type: integer
+          description: Place identifier.
+          example: 23
+        place:
+          $ref: '#/components/schemas/Place'
+        tags:
+          type: array
+          items:
+            $ref: '#/components/schemas/Tag'
+        apUserApId:
+          type: string
+          description: AP user identifier.
+          example: AP_USER_ID
+        apUser:
+          $ref: '#/components/schemas/APUser'
+        messages:
+          type: array
+          items:
+            $ref: '#/components/schemas/Message'
+        resources:
+          type: array
+          items:
+            $ref: '#/components/schemas/Resource'
+    EventAPI:
+      type: object
+      properties:
+        id:
+          type: integer
+          description: Event identifier.
+          example: 1
+        slug:
+          type: string
+          description: Event slug.
+          example: event-slug
+        status:
+          $ref: '#/components/schemas/EventStatus'
+        title:
+          type: string
+          description: Event title.
+          example: Event title
+        media:
+          type: array
+          items:
+            $ref: '#/components/schemas/Media'
+        start_datetime:
+          type: integer
+          description: Datetime when event starts.
+          example: 1784109600
+        end_datetime:
+          type: integer
+          description: Datetime when event ends.
+          example: 1784131200
+        place:
+          type: object
+          properties:
+            $ref: '#/components/schemas/PlaceAPI'
+    EventStatus:
+      type: string
+      enum: [EventCancelled,EventScheduled,EventTentative,EventMovedOnline,EventPostponed,EventRescheduled]
+      description: Event status.
+      example: EventScheduled
+    FilterCreation:
+      type: object
+      properties:
+        negate:
+          type: boolean
+          description: Indicates if the filter is to exclude condition or not.
+          example: false
+        tags:
+          type: array
+          items: string
+          description: Tags that events must have to match the condition of the filter.
+          example:
+            - tag1
+            - tag2
+        places:
+          type: array
+          description: Places where events must be located to match the condition of the filter.
+          items:
+            type: object
+            properties:
+              id:
+                type: integer
+                description: Place identifier.
+                example: 23
+              name:
+                type: string
+                description: Place name.
+                example: Place name
+        actors:
+          type: array
+          description: AP actors where events must belong to match the condition of the filter.
+          items:
+            type: object
+            properties:
+              ap_id:
+                type: string
+                description: AP actor identifier.
+                example: AP_ID
+        collectionId:
+          type: integer
+          description: Collection identifier.
+          example: 3
+    Filter:
+      allOf:
+        - type: object
+          properties:
+            id:
+              type: integer
+              description: Filter identifier.
+              example: 12
+        - $ref: '#/components/schemas/FilterCreation'
+    Instance:
+      type: object
+      properties:
+        domain:
+          type: string
+          description: Instance domain.
+          example: instance_domain.org
+        name:
+          type: string
+          description: Instance name.
+          example: Instance Name
+        blocked:
+          type: boolean
+          description: Indicates if instance is blocked or not.
+          example: false
+        data:
+          type: string
+          description: Instace data.
+        applicationActor:
+          type: string
+          description: Application actor.
+        APUsers:
+          type: array
+          items:
+            $ref: '#/components/schemas/APUser'
+    LDSignature:
+      type: object
+      properties:
+        '@context':
+          type: string
+          example: https://w3id.org/identity/v1
+        creator:
+          type: string
+          example: http://localhost:13120/federation/u/relay#main-key
+        created:
+          type: string
+          example:  2026-07-01T21:07:49.103Z
+        signatureValue:
+          type: string
+          example: SIGNATURE_KEY
+    Media:
+      type: object
+      properties:
+        name:
+          type: string
+          description: Media name.
+          example: Image name
+        url:
+          type: string
+          description: Filename or Url where media is located.
+          example: 6e599b27-5ed8-44c9-b954-53e9c6fa3c80.jpg
+        height:
+          type: integer
+          description: Media height.
+          example: 400
+        width:
+          type: integer
+          description: Media width.
+          example: 200
+        size:
+          type: integer
+          description: Media size.
+          example: 50000
+        focalpoint:
+          type: array
+          items:
+            type: integer
+          description: Media focal point.
+          example:
+            - 0
+            - 0
+    Message:
+      type: object
+      properties:
+        id:
+          type: integer
+          description: Message identifier.
+          example: 12
+        message:
+          type: string
+          description: Message text.
+          example: A message for an event.
+        author:
+          type: string
+          enum: [AUTHOR,ADMIN,ANON,REGISTERED]
+          description: Message author's role.
+          example: AUTHOR
+        is_author_visible:
+          type: boolean
+          description: Indicates if the author is visible or not.
+          example: true
+        eventId:
+          type: integer
+          description: Message's event identifier.
+          example: 3
+        createdAt:
+          type: string
+          description: Datetime when message was created.
+          example: 2020-01-29T18:10:16.630Z
+        updatedAt:
+          type: string
+          description: Datetime when message was updated last time.
+          example: 2020-01-30T22:42:14.789Z
+    Page:
+      type: object
+      properties:
+        id:
+          type: integer
+          description: Page identifier.
+          example: 3
+        title:
+          type: string
+          description: Page title.
+          example: More info
+        content:
+          type: string
+          description: Page content.
+          example: More info about Gancio.
+        visible:
+          type: boolean
+          description: Indicates if page is visible or not.
+          example: true
+        slug:
+          type: string
+          description: Page slug.
+          example: more-info
+        createdAt:
+          type: string
+          description: Datetime when page was created
+          example: 2020-01-29T18:10:16.630Z
+        updatedAt:
+          type: string
+          description: Datetime when page was updated last time
+          example: 2020-01-30T22:42:14.789Z
+    Place:
+      type: object
+      properties:
+        id:
+          type: integer
+          description: Location identifier.
+          example: 20
+        name:
+          type: string
+          description: Location name.
+          example: Location name
+        address:
+          type: string
+          description: Location address.
+          example: Address
+        ap_id:
+          type: string
+          description: AP identifier.
+          example: AP_ID
+        postal_address:
+          $ref: '#/components/schemas/PostalAddress'
+        latitude:
+          type: number
+          description: Location latitude.
+          example: 40.5574
+        longitude:
+          type: number
+          description: Location longitude.
+          example: 8.3263
+        createdAt:
+          type: string
+          description: Datetime when place was created.
+          example: 2020-01-29T18:10:16.630Z
+        updatedAt:
+          type: string
+          description: Datetime when place was updated last time.
+          example: 2020-01-30T22:42:14.789Z
+    PlaceAPI:
+      type: object
+      properties:
+        id:
+          type: integer
+          description: Location identifier.
+          example: 20
+        address:
+          type: string
+          description: Location address.
+          example: Address
+        name:
+          type: string
+          description: Location name.
+          example: Location name
+        eventCount:
+          type: integer
+          description: Number of events in this place
+          example: 4
+        ap_id:
+          type: string
+          description: AP identifier.
+          example: AP_ID
+        latitude:
+          type: number
+          description: Location latitude.
+          example: 40.5574
+        longitude:
+          type: number
+          description: Location longitude.
+          example: 8.3263
+    PostalAddress:
+      type: object
+      description: Postal Address object. See <a href="https://fediverse.codeberg.page/fep/fep/8a8e/#physical">https://fediverse.codeberg.page/fep/fep/8a8e/#physical</a>.
+    Recurrent:
+      type: object
+      properties:
+        frequency:
+          type: string
+          enum: [1w,2w,1m,2m,1y]
+          description: Frequency of the recurrent event.
+          example: 1w
+        type:
+          type: string
+          enum: [ordinal,-1,1,2,3,4]
+          description: Type of the recurrent event.
+          example: ordinal
+    Resource:
+      type: object
+      properties:
+        activitypub_id:
+          type: string
+          description: AP identifier.
+          example: AP_ID
+        createdAt:
+          type: string
+          description: Datetime when resource was created.
+          example: 2020-01-29T18:10:16.630Z
+        updatedAt:
+          type: string
+          description: Datetime when resource was updated last time.
+          example: 2020-01-30T22:42:14.789Z
+        hidden:
+          type: boolean
+          description: Indicates if resource is hidden or not.
+          example: false
+        data:
+          $ref: '#/components/schemas/APNote'
+        apUserApId:
+          type: string
+          description: AP user identifier.
+          example: AP_USER_ID
+        APUser:
+          $ref: '#/components/schemas/APUser'
+        eventId:
+          type: integer
+          description: Event identifier.
+          example: 2
+        event:
+          $ref: '#/components/schemas/Event'
+    Setting:
+      type: object
+      properties:
+          key:
+            type: string
+            description: Setting key.
+            example: title
+          value:
+            type: string
+            description: Setting value.
+            example: Demo Gancio
+          is_secret:
+            type: boolean
+            description: Indicates if the setting is secret or not.
+          createdAt:
+            type: string
+            description: Datetime when setting was created.
+            example: 2020-01-29T18:10:16.630Z
+          updatedAt:
+            type: string
+            description: Datetime when setting was updated last time.
+            example: 2020-01-30T22:42:14.789Z
+    Tag:
+      type: object
+      properties:
+        tag:
+          type: string
+          description: Tag text.
+          example: event_tag
+        normalizedTag:
+          type: string
+          description: Normalized tag text.
+          example: event_tag
+        events:
+          type: array
+          items:
+            $ref: '#/components/schemas/Event'
+    User:
+      type: object
+      properties:
+        id:
+          type: integer
+          description: User identifier
+          example: 1
+        email:
+          type: string
+          description: User email
+          example: example@gancio.org
+        description:
+          type: string
+          description: User description
+          example: Example user
+        is_active:
+          type: boolean
+          description: Indicates if user is enabled or not
+          example: true
+        to_notify:
+          type: boolean
+          description: Indicates if user must be notified or not
+          example: true
+        role:
+          $ref: '#/components/schemas/UserRole'
+        createdAt:
+          type: string
+          description: Datetime when user was created
+          example: 2020-01-29T18:10:16.630Z
+        updatedAt:
+          type: string
+          description: Datetime when user was updated last time
+          example: 2020-01-30T22:42:14.789Z
+    UserRole:
+      type: string
+      enum: [user,editor,admin]
+      description: User role
+      example: user

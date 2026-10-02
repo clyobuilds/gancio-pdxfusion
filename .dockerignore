@@ -1,0 +1,17 @@
+Dockerfile
+.git
+node_modules
+webcomponents
+yunohost
+releases
+!releases/latest.tgz
+docs
+uploads/*
+!uploads/logo.png
+!uploads/fallbackimage.svg
+!uploads/headerimage.svg
+_nuxt2
+.nuxt
+.output
+wp_plugin
+tests

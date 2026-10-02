@@ -1,0 +1,35 @@
+{
+    "register": {
+        "subject": "Izen-emate eskaera jaso da",
+        "content": "Zure izen-emate eskaera jaso dugu eta ahal dugun bezain laster baieztatuko dugu."
+    },
+    "confirm": {
+        "subject": "Ekitaldiak argitaratzen hasi zaitezke",
+        "content": "Kaixo, zure <a href='{{{config.baseurl}}}'>{{config.title}}</a>-ko kontua baieztatua izan da. Informazio gehiago behar baduzu idatzi iezaguzu lasai asko {{config.admin_email}}-ra."
+    },
+    "user_confirm": {
+        "subject": "Orain ekitaldiak argitaratzen hasten zaitezke",
+        "content": "Kaixo, zure <a href='{{{config.baseurl}}}'>{{config.title}}</a>-ko kontua berria sortu da. <a href='{{{config.baseurl}}}/user_confirm/{{user.recover_code}}'>Baieztatu zu zarela eta aukeratu ezazu pasahitza</a>."
+    },
+    "recover": {
+        "subject": "Pasahitza berreskuratzea",
+        "content": "Kaixo, zure pasahitza berreskuratzea eskatu duzu {{config.title}}-n. <a href='{{{config.baseurl}}}/recover/{{user.recover_code}}'>Hemen sakatzen du</a> egiaztatzeko."
+    },
+    "admin_register": {
+        "subject": "Izen-emate berria",
+        "content": "{{user.email}}-(e)k {{config.title}}-n izena ematea eskatu du: <br/><pre>{{user.description}}</pre><br/> Baieztatu ezazu horrela dela <a href='{{{config.baseurl}}}/admin'>hemen</a>."
+    },
+    "event_confirm": {
+        "content": "Ekitaldi hau <a href='{{{url}}}'>hemen</a> baieztatu dezakezu"
+    },
+    "test": {
+        "subject": "Zure SMTP konfigurazioa badabil",
+        "content": "Hau probako eposta bat da, mezu hau irakurtzen ari bazara konfigurazioa badabilela esan nahi du."
+    },
+    "report": {
+        "content_AUTHOR": "<strong>{{event.title}}</strong> ekitaldiaren egilea hurrengoa idatzi du: <br/><blockquote>{{message}}</blockquote><br/><br/><a href='{{{url}}}'>Ireki moderazioa</a>",
+        "subject": "[{{event.title}}] ekitaldiaren moderazioa",
+        "content_ADMIN": "administratzaile batek <strong>{{event.title}}</strong> ekitaldiari buruz iruzkindu du:<br/><blockquote>{{message}}</blockquote><br/><br/><a href='{{{url}}}'>Ireki moderazioa</a>",
+        "content_ANON": "Bisitari batek <strong>{{event.title}}</strong> ekitaldia jakinarazi du:<br/><blockquote>{{message}}</blockquote><br/><br/><a href='{{{url}}}'>Ireki moderazioa</a>"
+    }
+}

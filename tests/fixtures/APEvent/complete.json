@@ -1,0 +1,31 @@
+{ "id": "https://demo.gancio.org/federation/m/21058",
+  "name": "Test test",
+  "url": "https://demo.gancio.org/event/test-test-11",
+  "type": "Event",
+  "startTime": "2026-02-12T00:00:00.000+01:00",
+  "location":{
+    "id": "https://demo.gancio.org/federation/p/83",
+    "type": "Place",
+    "name": "Theaterplatz  63739 Aschaffenburg",
+    "address": "Oberstadt, Stadtmitte, Aschaffenburg, Bayern, 63739, Deutschland",
+    "url": "https://demo.gancio.org/place/83/Theaterplatz%20%2063739%20Aschaffenburg",
+    "latitude": 49.9739464,
+    "longitude": 9.1446815
+  },
+  "attachment": [
+    {
+      "type": "Document",
+      "mediaType": "image/jpeg",
+      "url": "https://demo.gancio.org/media/1a6d575a37ca9f57e71c2d0160b3c43f.jpg",
+      "name": "Test test",
+      "focalPoint": [0.5, 0.5]
+    }
+  ],
+  "tag": [ { "type": "Hashtag", "name": "#tag", "href": "https://demo.gancio.org/tag/tag" } ],
+  "published": "2026-02-05T12:02:03.403Z",
+  "updated": "2026-02-05T12:02:03.403Z",
+  "attributedTo": "https://demo.gancio.org/federation/u/customized",
+  "to": [ "https://www.w3.org/ns/activitystreams#Public" ],
+  "content": "<p>test</p><h1>antani</h1>",
+  "summary":    "<p>Theaterplatz  63739 Aschaffenburg, Thursday, February 12 at 12:00 AM GMT+1</p><p>test</p><h1>antani</h1>"
+}

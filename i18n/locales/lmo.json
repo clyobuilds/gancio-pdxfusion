@@ -1,0 +1,13 @@
+{
+    "common": {
+        "description": "Descrizion",
+        "info": "Informazion",
+        "login": "Và dent",
+        "sent": "Inviad",
+        "send": "Invià",
+        "when": "Quand",
+        "search": "Scercà",
+        "next": "Prossim",
+        "what": "Cossè"
+    }
+}
