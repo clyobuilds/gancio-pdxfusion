@@ -81,4 +81,5 @@ export type ThemeColorPalette = { [key: string]: string }
 
 export type SecretSettings = {
   privateKey: string
+  recurrent_notified_until?: number
 }
