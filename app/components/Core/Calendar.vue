@@ -16,11 +16,19 @@ function updatePages (pages) {
   }
 }
 const initialPage = useInitialCalendarPage()
+
+// jump back to the current month, forgetting the selected date
+const picker = ref()
+function goToToday() {
+  selectedDate.value = null
+  picker.value?.move(new Date())
+}
 </script>
 <template>
 <!-- :first-day-of-week='settings.calendar_first_day_of_week ?? undefined' -->
 <!-- :columns="$vuetify.display?.smAndUp ? 2 : 1" -->
 <DatePicker
+  ref='picker'
   v-model='selectedDate'
   :locale='$i18n.locale'
   title-position='left'
@@ -32,7 +40,15 @@ const initialPage = useInitialCalendarPage()
   :attributes='attributes'
   :initial-page="initialPage"
   @update:pages="updatePages"
-/>
+>
+  <template #footer>
+    <div class="d-flex justify-end px-2 pb-1">
+      <v-btn size="small" variant="text" color="primary" prepend-icon="mdi-calendar-today" @click="goToToday">
+        {{ $t('common.today') }}
+      </v-btn>
+    </div>
+  </template>
+</DatePicker>
 </template>
 
 <style>

@@ -2,6 +2,7 @@
     "common": {
         "enabled": "Enabled",
         "add_event": "Add event",
+        "today": "Today",
         "next": "Next",
         "export": "Export",
         "send": "Send",
