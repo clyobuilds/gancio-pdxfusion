@@ -1,5 +1,8 @@
 <script setup lang="ts">
 const time = useTime()
+const settings = useState<Settings>('settings')
+const { $copyToClipboard } = useNuxtApp()
+const canShare = useShare()
 const { event, lazy = false, hideThumbs = false } = defineProps<{
   event: EventAPI
   lazy?: boolean
@@ -16,6 +19,16 @@ const isPast = computed(() => {
 })
 
 const isCancelled = computed(() => event.status === 'EventCancelled')
+
+// share the event with the system share dialog, or copy its link where that is not available
+const eventUrl = computed(() => `${settings.value.baseurl}/event/${event.slug || event.id}`)
+function shareEvent() {
+  if (canShare.value) {
+    canShare.value({ url: eventUrl.value, title: event.title })
+  } else {
+    $copyToClipboard(eventUrl.value)
+  }
+}
 </script>
 
 <template>
@@ -23,10 +36,15 @@ const isCancelled = computed(() => event.status === 'EventCancelled')
   <nuxt-link :to='`/event/${event.slug || event.id}`' itemprop="url">
     <!-- <nuxt-picture/> -->
     <CoreImg v-if='!hideThumbs' :event='event' thumb :lazy='lazy' />
-    <v-icon v-if='event.parentId' class='float-right mr-1' color='success' icon='mdi-repeat' />
     <v-icon v-if='isPast' class='float-right mr-1' color='warning' icon='mdi-timer-sand' />
     <h3 class='event-title' itemprop="name" :class="isCancelled && 'text-decoration-line-through'">{{ event.title }}</h3>
   </nuxt-link>
+
+  <v-btn
+    class='share-button position-absolute top-0 right-0 ma-1'
+    variant='text' density='comfortable' icon='mdi-share-variant'
+    :aria-label="$t('common.share')" :title="$t('common.share')"
+    @click.prevent='shareEvent' />
 
   <v-avatar v-if='event?.ap_user?.image' size="small" class="position-absolute top-0 right-0 ma-2 pointer-ev-none">
     <v-img :src='event.ap_user.image' :alt="event.ap_user.name" />
