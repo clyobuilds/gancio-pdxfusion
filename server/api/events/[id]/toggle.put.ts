@@ -3,6 +3,7 @@ import { requireUser } from '~~/server/lib/auth'
 import { useLogger } from '~~/server/lib/logger'
 import { Event } from '~~/server/services'
 import { canModifyEvent } from '~~/server/services/events'
+import { createRecurrent } from '~~/server/services/recurrent'
 
 /**
  * @openapi
@@ -50,5 +51,13 @@ export default defineEventHandler(async (evt) => {
     throw createError({ statusCode: 401, statusMessage: 'Unauthorized' })
   }
 
-  return event.update({ is_visible: !event.is_visible })
+  await event.update({ is_visible: !event.is_visible })
+
+  // create the next occurrence of a just confirmed recurrent event
+  // without waiting for the task manager
+  if (event.recurrent && event.is_visible) {
+    await createRecurrent()
+  }
+
+  return event
 })

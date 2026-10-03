@@ -2,18 +2,18 @@ import { describe, expect, it, vi } from 'vitest'
 import { cleanDatabase } from '../api/setup'
 import { mockH3Event, now } from './utils'
 import { Event, getEvents, setSetting } from '../../server/services'
-// import { getUser } from '../../server/lib/getUser'
+import { getUser } from '../../server/lib/getUser'
 import { createRecurrentOccurrence } from '../../server/services/recurrent'
 
 vi.mock('../../server/lib/getUser')
-// const mockedGetUser = vi.mocked(getUser)
+const mockedGetUser = vi.mocked(getUser)
 
-await cleanDatabase(true)
+const { adminUser } = await cleanDatabase(true)
 // let event_id: number
 
 const { default: handleEvent } = await import('../../server/api/events/index.post')
 // const { default: patchHandler } = await import('../../server/api/events/[id]/index.patch')
-// const { default: toggleHandler } = await import('../../server/api/events/[id]/toggle.put')
+const { default: toggleHandler } = await import('../../server/api/events/[id]/toggle.put')
 
 describe('Recurrent Events', () => {
   it('should not create a recurrent event when disabled', async () => {
@@ -62,5 +62,24 @@ describe('Recurrent Events', () => {
 
     events = await getEvents({ show_recurrent: false })
     expect(events).toHaveLength(0)
+  })
+
+  it('should create an occurrence as soon as an anon recurrent event is confirmed', async () => {
+    mockedGetUser.mockResolvedValueOnce(undefined)
+    const parent = await handleEvent(mockH3Event({
+      method: 'POST',
+      body: {
+        title: 'anon recurrent', place_name: 'place name',
+        place_address: 'address', start_datetime: now() + 1000,
+        recurrent: JSON.stringify({ frequency: '1w', type: 'ordinal' })
+      }
+    }))
+    expect(parent).toHaveProperty('is_visible', false)
+    expect(await Event.count({ where: { parentId: parent.id } })).toBe(0)
+
+    mockedGetUser.mockResolvedValueOnce(adminUser)
+    const response = await toggleHandler(mockH3Event({ method: 'PUT', params: { id: String(parent.id) } }))
+    expect(response).toHaveProperty('is_visible', true)
+    expect(await Event.count({ where: { parentId: parent.id } })).toBe(1)
   })
 })
