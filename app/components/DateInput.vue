@@ -32,6 +32,16 @@ const selectedDates = ref<{ start?: Date, end?: Date } | null>({
 const selectedStartTime = ref<string | null>(event.value.start_datetime ? time.unixFormat(event.value.start_datetime, 'HH:mm') : null)
 const selectedEndTime = ref<string | null>(event.value.end_datetime ? time.unixFormat(event.value.end_datetime, 'HH:mm') : null)
 
+// time choices every 15 minutes, e.g. { title: '7:15 PM', value: '19:15' }
+const timeOptions = Array.from({ length: 96 }, (_, i) => {
+  const h = Math.floor(i / 4)
+  const m = (i % 4) * 15
+  return {
+    title: `${h % 12 || 12}:${String(m).padStart(2, '0')} ${h < 12 ? 'AM' : 'PM'}`,
+    value: `${String(h).padStart(2, '0')}:${String(m).padStart(2, '0')}`
+  }
+})
+
 const todayEvents = computed(() => {
   if (!events.value || !selectedDates.value?.start) {
     console.error('no selected date')
@@ -170,22 +180,23 @@ const pickDates = computed({
   <v-row class="mt-3 col-md-6 mx-auto datePicker">
 
     <v-col class="col-12 col-sm-6">
-      <v-text-field
+      <v-select
         v-model='selectedStartTime'
+        :items='timeOptions'
         :label="t('event.from')"
         :rules="[$valid.required('event.from')]"
-        prepend-icon='mdi-clock-time-four-outline'
-        type='time'
-        step='300' />
+        prepend-icon='mdi-clock-time-four-outline' />
     </v-col>
 
     <v-col class="col-12 col-sm-6">
       <!-- :disabled="!value.fromHour" -->
-      <v-text-field
+      <v-select
         v-model='selectedEndTime'
+        :items='timeOptions'
         :rules="[settings.allow_event_without_end_time && type !== 'multidate' ? true : $valid.required('event.due')]"
         :label="t('event.due')"
-        prepend-icon='mdi-clock-time-eight-outline' type='time' />
+        :clearable='settings.allow_event_without_end_time'
+        prepend-icon='mdi-clock-time-eight-outline' />
     </v-col>
 
   </v-row>
