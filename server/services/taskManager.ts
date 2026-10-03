@@ -11,8 +11,11 @@ import { cleanPastEvents, cleanUnusedAPActor } from './ap'
 import { createRecurrent } from './recurrent'
 const log = useLogger('Task Manager')
 
-const loopInterval = 60 // process.env.NODE_ENV === 'production' ? 1 : 1
-const minute = 1 * loopInterval
+// seconds between two ticks of the task manager loop
+const loopInterval = 60
+
+// task delays are expressed in ticks, not in seconds
+const minute = 60 / loopInterval
 const hour = minute * 60
 const day = hour * 24
 
@@ -101,6 +104,9 @@ export class TaskManager {
   }
 
   start(interval = loopInterval) {
+    // set the interval before adding tasks, as it is used to log their delay
+    this.interval = interval
+
     // create and clean recurrent events
     this.add({
       name: 'CREATE_RECURRENT_EVENT',
@@ -143,7 +149,6 @@ export class TaskManager {
     })
 
     log.info(`START TASK MANAGER WITH LOOP INTERVAL OF ${interval} seconds`)
-    this.interval = interval
     this.timeout = setTimeout(this.tick.bind(this), interval * 1000)
   }
 
