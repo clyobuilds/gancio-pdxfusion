@@ -54,6 +54,21 @@ const visibleEvents = computed(() => {
   }
 })
 
+// month headings: shown only on the plain list (not searching, nor looking at a single day)
+const showMonths = computed(() => !params.value.query && !selectedDate.value)
+
+// an event that already started is listed in the current month, not in the one it started
+const monthOf = (event: EventAPI) => Math.max(event.start_datetime, now)
+const monthKey = (event: EventAPI) => time.unixFormat(monthOf(event), 'yyyy-MM')
+const monthLabel = (event: EventAPI) => {
+  const sameYear = time.unixFormat(monthOf(event), 'yyyy') === time.unixFormat(now, 'yyyy')
+  return time.unixFormat(monthOf(event), sameYear ? 'LLLL' : 'LLLL yyyy')
+}
+const startsMonth = (idx: number) => {
+  const events = visibleEvents.value ?? []
+  return idx === 0 || monthKey(events[idx]!) !== monthKey(events[idx - 1]!)
+}
+
 const { data: announcements } = await useFetch<Announcement[]>('/api/announcements')
 
 </script>
@@ -67,12 +82,14 @@ const { data: announcements } = await useFetch<Announcement[]>('/api/announcemen
 
   <!-- Events -->
   <section class='events mt-sm-4 mt-2'>
-    <v-lazy
-      v-for='(event, idx) in visibleEvents' :key='event.id'
-      class='event' :model-value='idx<9'
-      :options="{ threshold: .5, rootMargin: '500px' }">
-      <EventCard :event='event' :lazy='idx>9' :hide-thumbs="settings.hide_thumbs" />
-    </v-lazy>
+    <template v-for='(event, idx) in visibleEvents' :key='event.id'>
+      <h2 v-if='showMonths && startsMonth(idx)' class='month-heading'>{{ monthLabel(event) }}</h2>
+      <v-lazy
+        class='event' :model-value='idx<9'
+        :options="{ threshold: .5, rootMargin: '500px' }">
+        <EventCard :event='event' :lazy='idx>9' :hide-thumbs="settings.hide_thumbs" />
+      </v-lazy>
+    </template>
 
     <div v-if="!visibleEvents?.length" class="d-flex flex-column align-center ga-2 my-8 my-sm-12">
       <span class="text-h4 text-medium-emphasis">{{ $t('common.no_events_found') }}</span>
@@ -83,3 +100,15 @@ const { data: announcements } = await useFetch<Announcement[]>('/api/announcemen
 
 </v-container>
 </template>
+
+<style>
+.month-heading {
+  flex: 0 0 100%;
+  width: 100%;
+  margin: 1rem 0 0;
+  font-size: 1.25rem;
+  font-weight: 600;
+  text-decoration: underline;
+  text-underline-offset: 6px;
+}
+</style>
