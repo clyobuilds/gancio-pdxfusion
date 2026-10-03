@@ -36,7 +36,7 @@ export const boolish = z.preprocess((v) => {
 }, z.boolean())
 
 export const eventQuerySchema = z.object({
-  start: z.coerce.number().default(DateTime.local().toUnixInteger()).optional(),
+  start: z.coerce.number().optional(),
   end: z.coerce.number().optional(),
   query: z.string().optional(),
   tags: z.preprocess((val) => {
@@ -50,9 +50,9 @@ export const eventQuerySchema = z.object({
     if (typeof val === 'number') return [val]
     return []
   }, z.array(z.coerce.number().int())).optional(),
-  show_recurrent: boolish.prefault(publicSettings.recurrent_event_visible).optional(),
+  show_recurrent: boolish.optional(),
   show_multidate: boolish.prefault(true).optional(),
-  show_federated: boolish.prefault(publicSettings.federated_events_in_home).optional(),
+  show_federated: boolish.optional(),
   max: z.coerce.number().int().optional(),
   page: z.coerce.number().int().optional(),
   older: boolish.optional(),
@@ -64,6 +64,11 @@ export const eventQuerySchema = z.object({
   include_description: boolish.default(false).optional()
 }).transform(o => ({
   ...o,
+  // defaults have to be evaluated at parse time: at load time settings are not loaded yet
+  // (and could change later) and "now" would be when the server started
+  start: o.start ?? DateTime.local().toUnixInteger(),
+  show_recurrent: o.show_recurrent ?? publicSettings.recurrent_event_visible,
+  show_federated: o.show_federated ?? publicSettings.federated_events_in_home,
   ...(o.max && { limit: o.max })
 }))
 

@@ -80,6 +80,14 @@ describe('Recurrent Events', () => {
     expect(events).toHaveLength(0)
   })
 
+  it('should use the current recurrent_event_visible setting as default', async () => {
+    await setSetting('recurrent_event_visible', true)
+    expect(await getEvents({})).toHaveLength(1)
+
+    await setSetting('recurrent_event_visible', false)
+    expect(await getEvents({})).toHaveLength(0)
+  })
+
   it('should create an occurrence as soon as an anon recurrent event is confirmed', async () => {
     mockedGetUser.mockResolvedValueOnce(undefined)
     const parent = await handleEvent(mockH3Event({
