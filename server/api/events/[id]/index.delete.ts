@@ -2,6 +2,7 @@ import { defineEventHandler, createError, getRouterParam } from 'h3'
 import { requireAdmin } from '~~/server/lib/auth'
 import { useLogger } from '~~/server/lib/logger'
 import { Event } from '~~/server/services'
+import { removeUpcomingOccurrences } from '~~/server/services/recurrent'
 
 /**
  * @openapi
@@ -36,6 +37,11 @@ export default defineEventHandler(async (evt) => {
   if (!event) {
     log.error('This event does not exist: ', id)
     throw createError({ status: 404, message: 'This event does not exists' })
+  }
+
+  // past occurrences of a recurrent event are kept, the upcoming ones are removed
+  if (event.recurrent) {
+    await removeUpcomingOccurrences(event)
   }
 
   // TODO: I cannot phisically remove the item as I need it to send the notification!

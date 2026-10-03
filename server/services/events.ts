@@ -21,7 +21,7 @@ import { focalPointSchema, jsonCodec } from '../lib/validator'
 import { addressToString } from '../../shared/utils/addressToString'
 import { findOrCreateTags, normalizeTag } from './tags'
 import type { Settings } from '~~/shared/types/settings'
-import { createRecurrent } from './recurrent'
+import { createRecurrent, removeUpcomingOccurrences } from './recurrent'
 import { sign } from '../federation/ldsignature'
 import { notifyEvent } from './notifier'
 import type { IntermediateRepresentation } from 'linkifyjs'
@@ -206,6 +206,8 @@ const eventAPISchema = z.object({
     { message: 'place_id or place_name and place_address are required' })
   .refine(data => data.end_datetime === null || data.start_datetime <= data.end_datetime,
     { message: 'start_datetime is greater than end_datetime' })
+  .refine(data => !data.recurrent?.until || data.start_datetime <= data.recurrent.until,
+    { message: 'start_datetime is greater than the end of the recurrence' })
 
 export function validateEvent(publicSettings: Settings, user?: InferAttributes<User>) {
   const isAnonymous = !user
@@ -239,6 +241,7 @@ export async function upsertEvent(payload: unknown, user?: InferAttributes<User>
   }
 
   const isNewEvent = eventPayload.id == null
+  let wasRecurrent = false
   if (eventPayload.id != null) {
     event = await Event.findByPk(eventPayload.id)
     if (!event) {
@@ -250,6 +253,7 @@ export async function upsertEvent(payload: unknown, user?: InferAttributes<User>
       log.warn('User not authorized to modify event: %s', eventPayload.id)
       throw createError({ statusCode: 403, message: 'You are not authorized to modify this event' })
     }
+    wasRecurrent = !!event.recurrent
   }
 
   // find or create the place
@@ -293,6 +297,12 @@ export async function upsertEvent(payload: unknown, user?: InferAttributes<User>
   if (eventPayload.tags) {
     tags = await findOrCreateTags(eventPayload.tags)
     await event.setTags(tags)
+  }
+
+  // upcoming occurrences of a modified recurrent event are created again with
+  // its new details (but the skipped ones, which stay skipped)
+  if (wasRecurrent) {
+    await removeUpcomingOccurrences(event, true)
   }
 
   // create recurrent instances of event if needed
@@ -430,7 +440,8 @@ export function mapEvent(event: Event,
     boost: event.boost,
     likes: event.likes,
     parent: event?.parent,
-    parentId: event.parentId
+    parentId: event.parentId,
+    ...(event.recurrent && { recurrent: event.recurrent })
     // TODO
     // n_msgs: event?.,
   }

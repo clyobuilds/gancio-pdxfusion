@@ -122,6 +122,9 @@ export function useTime() {
         recurrent = t(`event.recurrent_${frequency}_ordinal`, { n: t('ordinal.' + type), days: d })
       }
     }
+    if (recurrent && parent.recurrent.until) {
+      recurrent += ' ' + t('event.recurrent_until_date', { date: unixFormat(parent.recurrent.until, 'DDD') })
+    }
     return recurrent
   }
 
