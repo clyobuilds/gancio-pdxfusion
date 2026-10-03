@@ -47,6 +47,19 @@ describe('Recurrent Events', () => {
     expect(response).toHaveProperty('id')
   })
 
+  it('should create a weekly recurrent event without a type, as the event form does', async () => {
+    const response = await handleEvent(mockH3Event({
+      method: 'POST',
+      body: {
+        title: 'weekly without type', place_name: 'place name',
+        place_address: 'address', start_datetime: now() + 1000,
+        recurrent: JSON.stringify({ frequency: '1w' })
+      }
+    }))
+    expect(response).toHaveProperty('id')
+    expect((await Event.findByPk(response.id))?.recurrent).toMatchObject({ frequency: '1w' })
+  })
+
   it('should check the show_recurrent settings in que', async () => {
     const event = await Event.create({
       title: 'test second title',
