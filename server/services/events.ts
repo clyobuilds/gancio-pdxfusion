@@ -206,6 +206,8 @@ const eventAPISchema = z.object({
     { message: 'place_id or place_name and place_address are required' })
   .refine(data => data.end_datetime === null || data.start_datetime <= data.end_datetime,
     { message: 'start_datetime is greater than end_datetime' })
+  .refine(data => !data.recurrent?.until || data.start_datetime <= data.recurrent.until,
+    { message: 'start_datetime is greater than the end of the recurrence' })
 
 export function validateEvent(publicSettings: Settings, user?: InferAttributes<User>) {
   const isAnonymous = !user
@@ -438,7 +440,8 @@ export function mapEvent(event: Event,
     boost: event.boost,
     likes: event.likes,
     parent: event?.parent,
-    parentId: event.parentId
+    parentId: event.parentId,
+    ...(event.recurrent && { recurrent: event.recurrent })
     // TODO
     // n_msgs: event?.,
   }

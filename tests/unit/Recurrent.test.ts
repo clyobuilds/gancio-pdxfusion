@@ -5,6 +5,7 @@ import { mockH3Event, now } from './utils'
 import { Event, getEvents, setSetting } from '../../server/services'
 import { getUser } from '../../server/lib/getUser'
 import { createRecurrent, createRecurrentOccurrence, nextOccurrence } from '../../server/services/recurrent'
+import { upsertEvent } from '../../server/services/events'
 
 vi.mock('../../server/lib/getUser')
 const mockedGetUser = vi.mocked(getUser)
@@ -133,6 +134,39 @@ describe('Recurrent Events', () => {
     mockedGetUser.mockResolvedValueOnce(adminUser)
     await deleteHandler(mockH3Event({ method: 'DELETE', params: { id: String(parent!.id) } }))
     expect(await Event.count({ where: { title: 'weekly' } })).toBe(0)
+  })
+
+  it('should not create occurrences after the end of the recurrence', async () => {
+    const start = DateTime.now().plus({ days: 1 })
+    const payload = {
+      title: 'weekly until', place_name: 'place name', place_address: 'address', start_datetime: start.toUnixInteger()
+    }
+    const recurrent = (until: number | null) => JSON.stringify({ frequency: '1w', until })
+
+    // four occurrences: the first one and the three following weeks
+    const { event } = await upsertEvent({ ...payload, recurrent: recurrent(start.plus({ weeks: 3, hours: 1 }).toUnixInteger()) }, adminUser)
+    expect(event.recurrent).toHaveProperty('until')
+    expect(await Event.count({ where: { parentId: event.id } })).toBe(4)
+
+    // nothing more on next runs
+    await createRecurrent()
+    expect(await Event.count({ where: { parentId: event.id } })).toBe(4)
+
+    // moving the end removes or creates occurrences
+    await upsertEvent({ ...payload, id: event.id, recurrent: recurrent(start.plus({ weeks: 1, hours: 1 }).toUnixInteger()) }, adminUser)
+    expect(await Event.count({ where: { parentId: event.id } })).toBe(2)
+
+    await upsertEvent({ ...payload, id: event.id, recurrent: recurrent(null) }, adminUser)
+    expect(await Event.count({ where: { parentId: event.id } })).toBeGreaterThanOrEqual(26)
+  })
+
+  it('should not accept a recurrence ending before the event starts', async () => {
+    const start = DateTime.now().plus({ days: 1 })
+    const response = upsertEvent({
+      title: 'weekly until', place_name: 'place name', place_address: 'address', start_datetime: start.toUnixInteger(),
+      recurrent: JSON.stringify({ frequency: '1w', until: start.minus({ days: 1 }).toUnixInteger() })
+    }, adminUser)
+    await expect(response).rejects.toHaveProperty('statusCode', 400)
   })
 })
 

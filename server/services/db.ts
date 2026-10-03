@@ -202,7 +202,9 @@ export type LDSignature = {
 export const RecurrentSchema = z.object({
   frequency: z.enum(['1w', '2w', '1m', '2m', '1y']),
   // only meaningful for monthly/yearly events, the event form does not send it for weekly ones
-  type: z.enum(['ordinal', '-1', '1', '2', '3', '4']).default('ordinal')
+  type: z.enum(['ordinal', '-1', '1', '2', '3', '4']).default('ordinal'),
+  // no occurrences are created after this time (unix timestamp)
+  until: z.number().int().positive().nullish()
 })
 export type Recurrent = z.infer<typeof RecurrentSchema>
 

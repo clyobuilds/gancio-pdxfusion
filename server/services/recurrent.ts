@@ -88,6 +88,11 @@ export function nextOccurrence(e: Pick<Event, 'start_datetime' | 'recurrent'>, f
   return cursor
 }
 
+// is this occurrence after the end of the recurrence?
+function isOver(e: Pick<Event, 'recurrent'>, occurrence: DateTime) {
+  return !!e.recurrent?.until && occurrence.toUnixInteger() > e.recurrent.until
+}
+
 // the day (in the instance timezone) an event starts
 function startDay(start_datetime: number) {
   return DateTime.fromSeconds(start_datetime, { zone: publicSettings.instance_timezone }).toISODate()
@@ -148,13 +153,13 @@ export async function createRecurrentOccurrence(e: Event, startAt = DateTime.now
   }
 
   const start = nextOccurrence(e, startAt)
-  if (!start?.isValid) return
+  if (!start?.isValid || isOver(e, start)) return
   return createOccurrenceAt(e, start)
 }
 
 /**
- * Ensure a recurrent event has all its occurrences from `from` up to the horizon,
- * and at least a visible one in any case (e.g. for yearly events).
+ * Ensure a recurrent event has all its occurrences from `from` up to the horizon
+ * (or to its end, when it has one), and at least a visible one in any case (e.g. for yearly events).
  * Existing occurrences are left untouched, including the hidden (skipped) ones.
  */
 async function createOccurrences(e: Event, from: DateTime) {
@@ -165,7 +170,7 @@ async function createOccurrences(e: Event, from: DateTime) {
   let hasVisible = children.some(c => c.is_visible)
 
   let cursor = nextOccurrence(e, from)
-  for (let i = 0; i < MAX_OCCURRENCES && cursor?.isValid && (cursor <= horizon || !hasVisible); i++) {
+  for (let i = 0; i < MAX_OCCURRENCES && cursor?.isValid && !isOver(e, cursor) && (cursor <= horizon || !hasVisible); i++) {
     if (!days.has(cursor.toISODate())) {
       const occurrence = await createOccurrenceAt(e, cursor)
       if (!occurrence) return

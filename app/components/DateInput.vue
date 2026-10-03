@@ -22,7 +22,17 @@ const frequencies = [
 ]
 
 const eventIsMultidate = computed(() => time.isMultiDate(event.value.start_datetime, event.value.end_datetime))
-const type = ref(eventIsMultidate.value ? 'multidate' : 'normal')
+const type = ref(event.value.recurrent?.frequency ? 'recurrent' : eventIsMultidate.value ? 'multidate' : 'normal')
+
+// last day of the recurrence (yyyy-MM-dd), stored as the end of that day in the instance timezone
+const recurrentUntil = computed({
+  get: () => event.value.recurrent?.until ? time.unixFormat(event.value.recurrent.until, 'yyyy-MM-dd') : null,
+  set: (day: string | null) => {
+    if (!event.value.recurrent) return
+    const until = day ? DateTime.fromISO(day, { zone: settings.value.instance_timezone }).endOf('day') : null
+    event.value.recurrent.until = until?.isValid ? until.toUnixInteger() : null
+  }
+})
 
 const selectedDates = ref<{ start?: Date, end?: Date } | null>({
   start: event.value.start_datetime ? new Date(event.value.start_datetime * 1000) : undefined,
@@ -165,6 +175,19 @@ const pickDates = computed({
         size='small'
       >{{ whenPattern.label }}</v-btn>
     </v-btn-toggle>
+
+    <v-text-field
+      v-model='recurrentUntil'
+      class='mx-auto mt-4 text-start'
+      max-width='320'
+      type='date'
+      :min="event.start_datetime ? time.unixFormat(event.start_datetime, 'yyyy-MM-dd') : undefined"
+      :label="t('event.recurrent_until')"
+      :hint="t('event.recurrent_until_help')"
+      prepend-icon='mdi-calendar-end'
+      persistent-hint
+      persistent-placeholder
+      clearable />
   </div>
 
   <v-row class="mt-3 col-md-6 mx-auto datePicker">
