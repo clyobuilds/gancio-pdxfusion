@@ -63,4 +63,12 @@ describe('Recurrent Events', () => {
     events = await getEvents({ show_recurrent: false })
     expect(events).toHaveLength(0)
   })
+
+  it('should use the current recurrent_event_visible setting as default', async () => {
+    await setSetting('recurrent_event_visible', true)
+    expect(await getEvents({})).toHaveLength(1)
+
+    await setSetting('recurrent_event_visible', false)
+    expect(await getEvents({})).toHaveLength(0)
+  })
 })
