@@ -11,6 +11,9 @@ useHead({ title: `${settings.value.title} - ${t('common.add_event')}` })
 
 const route = useRoute()
 
+// opening /add?copy=ID starts a new event from an existing one: the page is rebuilt when ID changes
+definePageMeta({ key: route => route.fullPath })
+
 const event = ref<EventAPI>({
   title: '',
   is_visible: true,
@@ -23,18 +26,38 @@ const event = ref<EventAPI>({
 })
 
 let eventId = route.params.eventId
-if (eventId) {
-  const { data, error } = await useFetch<EventAPI>(() => `/api/event/detail/${route.params.eventId}`)
+const copyId = route.query.copy
+const copiedFrom = ref('')
+if (eventId || copyId) {
+  const { data, error } = await useFetch<EventAPI>(() => `/api/event/detail/${eventId || copyId}`)
   if (error.value) {
     throw createError(error.value)
   }
   if (!data.value) {
     throw createError({ status: 404, statusMessage: 'Event not found' })
   } else {
-    if (route.query.clone === 'true') {
+    if (route.query.clone === 'true' || copyId) {
       eventId = undefined
     }
     event.value = data.value
+    if (copyId) {
+      // a copy keeps everything but the dates (and how it repeats, apart from how often): those are picked again
+      copiedFrom.value = data.value.title
+      event.value = {
+        ...data.value,
+        id: undefined,
+        slug: undefined,
+        parentId: undefined,
+        parent: undefined,
+        is_visible: true,
+        status: 'EventScheduled',
+        // the flyer is not copied (the server cannot reuse a stored flyer, and a new date usually needs a new flyer)
+        media: [{}],
+        start_datetime: 0,
+        end_datetime: undefined,
+        recurrent: data.value.recurrent?.frequency ? { frequency: data.value.recurrent.frequency } : undefined
+      } as EventAPI
+    }
   }
 }
 
@@ -187,6 +210,14 @@ const category = computed({
             <v-col v-if='!loggedIn' cols=12>
               <!-- eslint-disable-next-line vue/no-v-html -->
               <p v-html="t('event.anon_description')" />
+            </v-col>
+
+            <!-- Start from an existing event -->
+            <v-col v-if="!eventId && route.query.clone !== 'true'" cols=12>
+              <v-alert v-if="copiedFrom" type="info" variant="tonal" density="compact" class="mb-3">
+                {{ t('common.copied_from', { title: copiedFrom }) }}
+              </v-alert>
+              <EventCopyPicker />
             </v-col>
 
             <!-- Title -->
