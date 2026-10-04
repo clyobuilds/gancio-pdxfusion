@@ -41,7 +41,7 @@ if (eventId || copyId) {
     }
     event.value = data.value
     if (copyId) {
-      // a copy keeps everything but the dates (and how it repeats, apart from how often): those are picked again
+      // a copy keeps everything but the dates, the flyer and any repeating: those are picked again
       copiedFrom.value = data.value.title
       event.value = {
         ...data.value,
@@ -55,7 +55,8 @@ if (eventId || copyId) {
         media: [{}],
         start_datetime: 0,
         end_datetime: undefined,
-        recurrent: data.value.recurrent?.frequency ? { frequency: data.value.recurrent.frequency } : undefined
+        // a copy is a single event; make it repeat on purpose with "Recurring"
+        recurrent: undefined
       } as EventAPI
     }
   }

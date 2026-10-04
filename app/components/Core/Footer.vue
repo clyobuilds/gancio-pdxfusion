@@ -5,6 +5,7 @@ const settings = useState<Settings>('settings')
 const config = useRuntimeConfig()
 const { t } = useI18n()
 const showFollowMe = ref<boolean>(false)
+const goHome = useGoHome()
 
 const { data: trusted_sources } = await useLazyFetch('/api/ap_actors/trusted', {
   immediate: !!settings.value.enable_federation,
@@ -31,7 +32,8 @@ const footerLinks = computed(() => settings.value.footerLinks?.map((link) => {
   <!-- footer links -->
   <v-btn
     v-for="link in footerLinks" :key="link?.label" color="primary" class="ml-1"
-    :href="link?.href" :to="link?.to" :target="link?.href && '_blank'">{{ $t(link?.label) }}</v-btn>
+    :href="link?.href" :to="link?.to" :target="link?.href && '_blank'"
+    @click="link?.to === '/' && goHome($event)">{{ $t(link?.label) }}</v-btn>
 
   <!-- trusted sources -->
   <v-menu

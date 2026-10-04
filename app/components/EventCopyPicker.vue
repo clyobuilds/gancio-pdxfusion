@@ -19,9 +19,9 @@ watch(searchDebounced, async (q) => {
   }
   loading.value = true
   try {
-    // newest first, past events included; a repeating series is listed once.
+    // newest first, past events included. `include_parent` lists a repeating series once (its first event), not once per date.
     // (No `max` here: Gancio's search fails when a result limit is combined with a text query, so the list is cut below.)
-    const found = await $fetch<EventAPI[]>('/api/events', { params: { query: q, start: 0, reverse: true, show_recurrent: false } })
+    const found = await $fetch<EventAPI[]>('/api/events', { params: { query: q, start: 0, reverse: true, show_recurrent: false, include_parent: true } })
     items.value = found.slice(0, 10)
   } catch {
     items.value = []

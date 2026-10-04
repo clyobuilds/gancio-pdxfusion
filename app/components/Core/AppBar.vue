@@ -1,6 +1,7 @@
 <script setup lang="ts">
 const settings = useState<Settings>('settings')
 const route = useRoute()
+const goHome = useGoHome()
 
 const show_calendar = computed(() => !settings.value?.hide_calendar && route?.name === 'index')
 const show_collections_bar = computed(() => ['index', 'collection-name'].includes(route.name as string))
@@ -14,7 +15,7 @@ const headerImage = 'url("/headerimage.png")'
 
   <!-- title -->
   <component :is='$route.name === "index" ? "h1" : "div"' class="text-center">
-    <nuxt-link id="title" color='primary' to="/">{{ settings?.title ?? 'Gancio'}}</nuxt-link>
+    <nuxt-link id="title" color='primary' to="/" @click="goHome">{{ settings?.title ?? 'Gancio'}}</nuxt-link>
 
     <!-- eslint-disable vue/no-v-html -->
     <div
