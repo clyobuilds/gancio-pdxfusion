@@ -45,6 +45,53 @@ function selectPlace(place: PlaceAPI) {
   }
 }
 
+// address suggestions while typing (only for a new place, and only when geolocation is enabled)
+type Suggestion = { name?: string, display_name: string, icon: string, lat: number, lon: number, address: PostalAddress }
+const suggestions = ref<Suggestion[]>([])
+const suggesting = ref(false)
+const addressSearch = ref('')
+const addressSearchDebounced = refDebounced(addressSearch, 400)
+let picked = ''
+watch(addressSearchDebounced, async (q) => {
+  q = q?.trim() ?? ''
+  if (!settings.value.allow_geolocation || disableAddress.value || q.length < 3 || q === picked) {
+    suggestions.value = []
+    return
+  }
+  suggesting.value = true
+  try {
+    suggestions.value = await $fetch<Suggestion[]>('/api/geocode', { params: { q } })
+  } catch {
+    suggestions.value = []
+  }
+  suggesting.value = false
+})
+
+function typeAddress(q: string | null) {
+  // choosing a suggestion also reports its text as "typed": keep the coordinates it brought
+  if (q && q === picked) {
+    return
+  }
+  addressSearch.value = q ?? ''
+  event.value.place.address = q ?? ''
+  // typing again discards coordinates of an earlier suggestion
+  event.value.place.latitude = event.value.place.longitude = undefined
+  event.value.place.postal_address = undefined
+}
+
+function pickSuggestion(v: Suggestion | string | null) {
+  if (!v || typeof v === 'string') {
+    return
+  }
+  const address = addressToString(v.address)
+  picked = address
+  suggestions.value = []
+  event.value.place.address = address
+  event.value.place.latitude = v.lat
+  event.value.place.longitude = v.lon
+  event.value.place.postal_address = v.address
+}
+
 const address = ref()
 function selectFirst () {
   const items = selectablePlaces.value
@@ -68,9 +115,7 @@ function selectFirst () {
       no-filter
       prepend-icon="mdi-map-marker"
       density='default'
-      :hint="$t('event.where_description')"
       auto-select-first
-      persistent-hint
       return-object
       :items="selectablePlaces"
       item-title='name'
@@ -83,15 +128,21 @@ function selectFirst () {
 
   <!-- address -->
   <v-col v-if="!isOnLine" cols="12" :md="settings.allow_online_event?5:8">
-    <v-text-field
-      ref="address" v-model="event.place.address" class="mr-4" prepend-icon="mdi-map"
+    <v-combobox
+      ref="address" :model-value="event.place.address" class="mr-4" prepend-icon="mdi-map"
       :disabled="typeof event?.place?.id === 'number' || !event.place.name"
       :rules="[ v => disableAddress ? true : $valid.required('common.address')(v)]" :label="$t('common.address')"
-      :hint="$t('event.address_description')" persistent-hint>
+      :hint="$t('event.address_description')" persistent-hint
+      :items="suggestions" item-title="display_name" return-object no-filter hide-no-data hide-selected
+      :loading="suggesting" :menu-icon="''" autocomplete="off"
+      @update:search="typeAddress" @update:model-value="pickSuggestion">
+      <template #item="{ item, props }">
+        <v-list-item v-bind="props" :title="item.raw.name || item.raw.display_name" :subtitle="item.raw.name ? item.raw.display_name : ''" :prepend-icon="item.raw.icon" />
+      </template>
       <template v-if="settings.allow_geolocation" #append>
         <t-btn tooltip="admin.geolocation" size="small" icon='mdi-map-search' @click="whereInputAdvancedDialog = true" />
       </template>
-    </v-text-field>
+    </v-combobox>
   </v-col>
 
   <v-col v-if="settings.allow_online_event" cols="12" :md="isOnLine?8:3">

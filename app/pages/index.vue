@@ -36,7 +36,10 @@ onMounted(() => refresh())
 // check if current month is selected
 const isCurrentMonth = computed(() => params.value.start === time.startMonth())
 
-const visibleEvents = computed(() => {
+// tabs: all events, or only one kind (Social / Lesson / Workshop)
+const category = useState<string>('category', () => 'all')
+
+const dateFiltered = computed(() => {
   if (params.value.query) {
     return events.value
   }
@@ -52,6 +55,11 @@ const visibleEvents = computed(() => {
   } else {
     return events.value
   }
+})
+
+const visibleEvents = computed(() => {
+  const inCategory = (list?: EventAPI[]) => category.value === 'all' ? list : list?.filter(e => categoriesOf(e.tags).includes(category.value as typeof EVENT_CATEGORIES[number]))
+  return inCategory(dateFiltered.value)
 })
 
 // month headings: shown only on the plain list (not searching, nor looking at a single day)
@@ -79,6 +87,12 @@ const { data: announcements } = await useFetch<Announcement[]>('/api/announcemen
   <section v-if='announcements?.length' id='announcements' class='mt-2 mt-sm-4'>
     <Announcement v-for='announcement in announcements' :key='announcement.id' :announcement='announcement' />
   </section>
+
+  <!-- Category tabs -->
+  <v-tabs v-model='category' id='category-tabs' class='mt-2 mt-sm-4' color='primary' align-tabs='center' grow>
+    <v-tab value='all'>{{ $t('common.type_all') }}</v-tab>
+    <v-tab v-for='c in EVENT_CATEGORIES' :key='c' :value='c'>{{ $t(`common.type_${c.toLowerCase()}`) }}s</v-tab>
+  </v-tabs>
 
   <!-- Events -->
   <section class='events mt-sm-4 mt-2'>
