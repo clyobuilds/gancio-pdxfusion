@@ -193,6 +193,7 @@ const eventAPISchema = z.object({
     }
   }, z.string()),
   online_locations: z.array(z.string()).nullable().default(null),
+  cost: z.string().max(60).optional().transform(v => v === undefined ? undefined : (v.trim() || null)),
   // image
   image_name: z.string().optional(),
   image: multipartFileSchema.optional(),
@@ -441,6 +442,7 @@ export function mapEvent(event: Event,
     original_url: event?.ap_object?.url ?? event?.ap_id ?? undefined,
 
     online_locations: event.online_locations,
+    cost: event.cost ?? undefined,
     tags: (event.tags ?? options?.tags)?.map(t => t.tag),
     boost: event.boost,
     likes: event.likes,

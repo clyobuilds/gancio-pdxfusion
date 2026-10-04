@@ -15,7 +15,7 @@ function routeBy (type: 'foot' | 'bike' | 'car' | 'transit') {
   }
   return `https://www.openstreetmap.org/directions?from=&to=${lat},${lon}&${routingType[type]}#map=14/${lat}/${lon}`
 }
-const geoUrl = computed(() => `geo:${props.place.latitude},${props.place.longitude}?q=${props.place.name}`)
+const geoUrl = useMapLink(() => props.place)
 </script>
 
 <template>
@@ -28,7 +28,7 @@ const geoUrl = computed(() => `geo:${props.place.latitude},${props.place.longitu
 </template>
 <style lang="css" scoped>
 .how-to-arrive {
-  z-index: 1;
+  z-index: 3; /* above the map's clickable cover */
   inset-inline-start: 0;
   background: rgb(var(--v-theme-background));
   box-shadow: 0 0 0 2px rgba(0,0,0,.2); /* mimick other leaflet buttons */

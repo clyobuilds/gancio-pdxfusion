@@ -111,6 +111,7 @@ async function done(publish) {
     evt.online_locations.forEach((l: string) => formData.append('online_locations[]', l))
   }
 
+  formData.append('cost', evt.cost ?? '')
   formData.append('description', evt.description ?? '')
   formData.append('start_datetime', evt.start_datetime.toString())
 
@@ -198,6 +199,13 @@ const category = computed({
             <!-- Where -->
             <v-col cols=12>
               <WhereInput ref='where' v-model:event='event' />
+            </v-col>
+
+            <!-- Cost (optional) -->
+            <v-col cols=12>
+              <v-text-field
+                v-model="event.cost" prepend-icon="mdi-cash" :label="t('common.cost')"
+                :hint="t('common.cost_hint')" persistent-hint maxlength="60" />
             </v-col>
 
             <!-- When -->
