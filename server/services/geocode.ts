@@ -78,9 +78,64 @@ function getIcon(item: NominatimResult) {
   return type in iconMap ? iconMap[type] : 'mdi-home'
 }
 
+type PhotonResult = {
+  geometry: { coordinates: [number, number] }
+  properties: {
+    name?: string
+    housenumber?: string
+    street?: string
+    city?: string
+    district?: string
+    county?: string
+    state?: string
+    postcode?: string
+    country?: string
+    countrycode?: string
+    osm_key?: string
+  }
+}
+
+// Photon (https://photon.komoot.io) is built for search-as-you-type; the public Nominatim server forbids that.
+// Only the Portland area (Vancouver to Wilsonville, Hillsboro to Troutdale) is searched, and only results with a
+// house number are kept: a calendar needs a street address, not a town, county or bare street.
+const PHOTON_BBOX = '-123.4,45.15,-122.2,45.85'
+
+async function queryPhoton(endpoint: string, q: string) {
+  const result = await $fetch<{ features?: PhotonResult[] }>(endpoint, {
+    params: { q, limit: 15, lang: 'en', bbox: PHOTON_BBOX, layer: ['house', 'other'] },
+    headers: { 'User-Agent': 'gancio' }
+  })
+  return (result?.features ?? []).filter(f => f.properties.housenumber).slice(0, 5).map((f) => {
+    const p = f.properties
+    const address = {
+      type: 'PostalAddress',
+      streetAddress: [p.housenumber, p.street].filter(Boolean).join(' ') || undefined,
+      addressLocality: p.city || p.district || p.county || undefined,
+      addressRegion: p.state,
+      postalCode: p.postcode,
+      addressCountry: p.country
+    } as PostalAddress
+    // a place with its own name (a venue) shows that name; a plain street address has none
+    const name = p.name
+    return {
+      icon: name ? 'mdi-map-marker' : 'mdi-home',
+      lat: f.geometry.coordinates[1],
+      lon: f.geometry.coordinates[0],
+      address,
+      display_name: addressToString(address),
+      name
+    }
+  })
+}
+
 // https://nominatim.org/release-docs/latest/api/Search/
 export async function queryNominatim(q: string) {
   const endpoint = publicSettings.geocoding_provider || 'https://nominatim.openstreetmap.org/search'
+
+  if (endpoint.includes('photon')) {
+    log.info('Fetching suggestions for', q)
+    return queryPhoton(endpoint, q)
+  }
 
   log.info('Fetching details for', q)
 

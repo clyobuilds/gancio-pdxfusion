@@ -209,10 +209,10 @@ const pickDates = computed({
     <v-btn-toggle
       v-if="type === 'recurrent' && event?.recurrent"
       v-model="event.recurrent.frequency"
-      class="v-col-6 flex-column flex-sm-row"
+      class="frequency-toggle v-col-6 flex-column flex-sm-row"
       color="primary"
     >
-      <v-btn v-for="f in frequencies" :key="f.value" :value="f.value">{{ f.text }}</v-btn>
+      <v-btn v-for="f in frequencies" :key="f.value" :value="f.value" size="small">{{ f.text }}</v-btn>
     </v-btn-toggle>
 
     <div class="mx-auto d-block mt-3">
@@ -234,11 +234,11 @@ const pickDates = computed({
   </div>
 
   <div v-if="type === 'recurrent'" class="text-center mb-2">
-    <span v-if="event.recurrent?.frequency !== '1m' && event.recurrent?.frequency !== '2m'">{{ whenPatterns }}</span>
+    <div class="pattern-slot">
     <v-btn-toggle
-      v-else
+      v-if="event.recurrent?.frequency === '1m' || event.recurrent?.frequency === '2m'"
       v-model="event.recurrent.type"
-      class="mt-1 flex-column flex-sm-row"
+      class="frequency-toggle mt-1 flex-column flex-sm-row"
     >
       <v-btn
         v-for="whenPattern in whenPatterns"
@@ -247,6 +247,7 @@ const pickDates = computed({
         size='small'
       >{{ whenPattern.label }}</v-btn>
     </v-btn-toggle>
+    </div>
 
     <v-radio-group v-model='recurrentEnds' inline hide-details class='justify-center mt-3'>
       <v-radio value='never' :label="t('event.recurrent_no_end')" />

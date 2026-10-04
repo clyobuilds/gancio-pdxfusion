@@ -2,8 +2,6 @@
 
  -->
 <script setup lang="ts">
-import { refDebounced } from '@vueuse/core'
-
 const { loggedIn } = useUserSession()
 const { $notify } = useNuxtApp()
 const settings = useState<Settings>('settings')
@@ -45,10 +43,6 @@ const loading = ref(false)
 const form = ref()
 
 // const openImportDialog = ref(false)
-const searchTag = ref('')
-const searchTagDebounced = refDebounced(searchTag, 200)
-const { data: tags, status: statusTags } = await useFetch('/api/tags', { params: { query: searchTagDebounced } })
-
 async function draft() {
   await done(false)
 }
@@ -131,8 +125,8 @@ async function done(publish) {
     }))
   }
 
-  if (normalizedTags?.value?.length) {
-    normalizedTags.value?.forEach(tag => formData.append('tags[]', tag))
+  if (evt.tags?.length) {
+    evt.tags.forEach(tag => formData.append('tags[]', tag))
   } else {
     formData.append('tags[]', '')
   }
@@ -163,19 +157,12 @@ async function done(publish) {
   loading.value = false
 }
 
-const normalizedTags = computed({
-  get: () => event?.value?.tags ?? [],
-  set: (newTags: string[]) => {
-    const seen = new Set()
-    const tags = []
-    for (const tag of newTags) {
-      const norm = tag.toLocaleLowerCase().trim()
-      if (!seen.has(norm)) {
-        seen.add(norm)
-        tags.push(tag)
-      }
-    }
-    event.value.tags = tags
+// the event's categories are the tags we ask for; any other tag it already has is kept
+const category = computed({
+  get: () => categoriesOf(event.value.tags) as string[],
+  set: (value: string[]) => {
+    const others = (event.value.tags ?? []).filter(t => !EVENT_CATEGORIES.some(c => c.toLowerCase() === t.toLowerCase()))
+    event.value.tags = [...others, ...(value ?? [])]
   }
 })
 
@@ -228,13 +215,12 @@ const normalizedTags = computed({
               <MediaInput v-model:media='event.media' :event='event' />
             </v-col>
 
-            <!-- TAGS -->
-            <v-col cols=12 md=6>
-              <v-combobox
-                v-model:search="searchTag" v-model="normalizedTags" prepend-icon="mdi-tag-multiple" chips no-filter
-                multiple closable-chips hide-no-data hide-selected persistent-hint :loading="statusTags === 'pending'"
-                :delimiters="[',', ';']" :items="tags || []"
-                :label="t('common.tags')"/>
+            <!-- CATEGORY (stored as a tag) -->
+            <v-col cols=12>
+              <v-select
+                v-model="category" prepend-icon="mdi-shape" :label="t('common.event_type')" multiple chips closable-chips :hint="t('common.event_type_hint')" persistent-hint
+                :items="EVENT_CATEGORIES.map(c => ({ value: c, title: t(`common.type_${c.toLowerCase()}`) }))"
+                :rules="[$valid.requiredMulti('common.event_type')]" />
             </v-col>
 
           </v-row>
