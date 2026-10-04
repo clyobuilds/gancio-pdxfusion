@@ -33,7 +33,10 @@ const recurrentEnds = computed({
     if (value === 'never') {
       event.value.recurrent.until = null
     } else if (!event.value.recurrent.until) {
-      const first = DateTime.fromSeconds(event.value.start_datetime || time.nowUnix(), { zone: settings.value.instance_timezone })
+      // three months after the day picked in the calendar (or today, when none is picked yet)
+      const zone = settings.value.instance_timezone
+      const picked = selectedDates.value?.start
+      const first = picked ? DateTime.fromJSDate(picked).setZone(zone) : DateTime.now().setZone(zone)
       event.value.recurrent.until = first.plus({ months: 3 }).endOf('day').toUnixInteger()
     }
   }
