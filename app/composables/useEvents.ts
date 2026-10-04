@@ -8,7 +8,13 @@ export const useEvents = () => {
     query: route.query?.query
   }))
 
-  const { data: events, pending, refresh } = useFetch('/api/events', { query: params, dedupe: 'defer' })
+  // repeating events are shown only up to the horizon: dates created earlier with a longer horizon stay hidden until they are close
+  const horizon = () => time.nowUnix() + RECURRENT_HORIZON_MONTHS * 31 * 24 * 3600
+  const { data: events, pending, refresh } = useFetch('/api/events', {
+    query: params,
+    dedupe: 'defer',
+    transform: (list: EventAPI[]) => list.filter(e => !e.parentId || e.start_datetime <= horizon())
+  })
 
   const attributes = computed(() => useAttributesFromEvents(events?.value ?? []))
 

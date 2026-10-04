@@ -107,18 +107,18 @@ describe('Recurrent Events', () => {
     expect(await Event.count({ where: { parentId: parent.id } })).toBeGreaterThan(0)
   })
 
-  it('should create all the occurrences of the next six months, only once', async () => {
+  it('should create all the occurrences of the next four months, only once', async () => {
     const start = DateTime.now().plus({ days: 1 })
     const parent = await Event.create({
       title: 'weekly', is_visible: true, start_datetime: start.toUnixInteger(), recurrent: { frequency: '1w', type: 'ordinal' }
     })
     await createRecurrent()
     const occurrences = await Event.findAll({ where: { parentId: parent.id }, order: [['start_datetime', 'ASC']] })
-    // one each week for six months
-    expect(occurrences.length).toBeGreaterThanOrEqual(26)
-    expect(occurrences.length).toBeLessThanOrEqual(27)
+    // one each week for four months
+    expect(occurrences.length).toBeGreaterThanOrEqual(17)
+    expect(occurrences.length).toBeLessThanOrEqual(19)
     expect(occurrences[0]).toHaveProperty('start_datetime', parent.start_datetime)
-    expect(occurrences.at(-1)!.start_datetime).toBeGreaterThan(start.plus({ months: 5, weeks: 3 }).toUnixInteger())
+    expect(occurrences.at(-1)!.start_datetime).toBeGreaterThan(start.plus({ months: 3, weeks: 2 }).toUnixInteger())
     expect(new Set(occurrences.map(o => o.start_datetime)).size).toBe(occurrences.length)
 
     // nothing more to create on next runs, even when called at the same time
@@ -165,7 +165,8 @@ describe('Recurrent Events', () => {
     expect(await Event.count({ where: { parentId: event.id } })).toBe(2)
 
     await upsertEvent({ ...payload, id: event.id, recurrent: recurrent(null) }, adminUser)
-    expect(await Event.count({ where: { parentId: event.id } })).toBeGreaterThanOrEqual(26)
+    // no end: occurrences are created for the next four months
+    expect(await Event.count({ where: { parentId: event.id } })).toBeGreaterThanOrEqual(17)
   })
 
   it('should not accept a recurrence ending before the event starts', async () => {

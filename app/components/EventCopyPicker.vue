@@ -44,7 +44,7 @@ function pick(event: EventAPI | null) {
   :label="$t('common.copy_from_event')"
   :hint="$t('common.copy_from_event_hint')"
   prepend-icon="mdi-content-copy"
-  persistent-hint no-filter hide-no-data return-object clearable
+  density="compact" variant="outlined" persistent-hint no-filter hide-no-data return-object clearable
   :loading="loading"
   @update:model-value="pick"
 >

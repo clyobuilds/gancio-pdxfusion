@@ -4,11 +4,12 @@ import { Event, Tag } from '~~/server/services/db'
 import { notifyEvent } from '~~/server/services/notifier'
 import { publicSettings, secretSettings, setSetting } from '~~/server/services/settings'
 import { Op } from '@sequelize/core'
+import { RECURRENT_HORIZON_MONTHS } from '../../shared/utils/recurrentHorizon'
 
 const log = useLogger('recurrent')
 
 // how far in the future occurrences of recurrent events are created
-export const RECURRENT_HORIZON = { months: 6 }
+export const RECURRENT_HORIZON = { months: RECURRENT_HORIZON_MONTHS }
 
 // an occurrence is notified (e.g. to the fediverse) when it starts within this time,
 // to avoid sending all the occurrences of a recurrent event at once

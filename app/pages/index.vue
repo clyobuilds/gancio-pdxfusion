@@ -46,7 +46,14 @@ const dateFiltered = computed(() => {
   if (selectedDate.value) {
     const min = DateTime.fromJSDate(selectedDate?.value)?.startOf('day')?.toUnixInteger()
     const max = DateTime.fromJSDate(selectedDate?.value)?.endOf('day')?.toUnixInteger()
-    return events.value?.filter(e => (e.start_datetime <= max && (e.end_datetime || e.start_datetime) >= min))
+    // an event belongs to the day it starts, even when it runs past midnight; only events lasting a day or more
+    // (festivals) also appear on the following days, and ending exactly at midnight does not reach the next day
+    return events.value?.filter((e) => {
+      const multiDay = e.end_datetime && e.end_datetime - e.start_datetime >= 24 * 3600
+      return multiDay
+        ? e.start_datetime <= max && e.end_datetime! - 1 >= min
+        : e.start_datetime >= min && e.start_datetime <= max
+    })
   } else if (isCurrentMonth.value) {
     return events.value?.filter((e) => {
       const end_datetime = e?.end_datetime ?? e.start_datetime + settings.value.open_ended_event_default_duration * 60 * 60

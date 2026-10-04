@@ -193,6 +193,10 @@ const category = computed({
 </script>
 <template>
 <v-container class="pa-0 pa-md-3">
+  <!-- Start from an existing event: above the form, so it is at the top but is not the first thing in it -->
+  <div v-if="!eventId && route.query.clone !== 'true'" class="mb-3 px-3 px-md-0">
+    <EventCopyPicker />
+  </div>
   <v-card>
     <v-card-title>
       <!-- <v-btn variant='outlined' class='float-right' color='primary' @click='openImportDialog = true' prepend-icon="mdi-file-import">{{$t('common.import') }}</v-btn> -->
@@ -212,12 +216,11 @@ const category = computed({
               <p v-html="t('event.anon_description')" />
             </v-col>
 
-            <!-- Start from an existing event -->
-            <v-col v-if="!eventId && route.query.clone !== 'true'" cols=12>
-              <v-alert v-if="copiedFrom" type="info" variant="tonal" density="compact" class="mb-3">
+            <!-- Said so when this form was started from another event -->
+            <v-col v-if="copiedFrom" cols=12>
+              <v-alert type="info" variant="tonal" density="compact">
                 {{ t('common.copied_from', { title: copiedFrom }) }}
               </v-alert>
-              <EventCopyPicker />
             </v-col>
 
             <!-- Title -->
