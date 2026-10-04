@@ -68,8 +68,10 @@ export function useTime() {
       .set({ hour: hours, minute: minutes, second: 0, millisecond: 0 }).toUnixInteger()
   }
 
+  // an event is multi-day when it ends on another day AND lasts a day or more:
+  // a dance from 9 PM to 1 AM is a single evening, not a multi-day event
   function isMultiDate(start: number, end?: number) {
-    return end && !dt(end).hasSame(dt(start), 'day')
+    return !!end && !dt(end).hasSame(dt(start), 'day') && end - start >= 24 * 60 * 60
   }
 
   function when(event: EventAPI) {
@@ -89,9 +91,7 @@ export function useTime() {
 
     if (event?.end_datetime && event.displayEndTime !== false) {
       const end = dt(event.end_datetime)
-      const isMultiDate = !end.hasSame(start, 'day')
-
-      if (isMultiDate) {
+      if (isMultiDate(event.start_datetime, event.end_datetime)) {
         timeStr += ` → ${end.toLocaleString({
           weekday: 'long',
           ...(cy !== end.year && { year: 'numeric' }),

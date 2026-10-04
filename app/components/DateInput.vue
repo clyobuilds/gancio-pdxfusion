@@ -24,6 +24,21 @@ const frequencies = [
 const eventIsMultidate = computed(() => time.isMultiDate(event.value.start_datetime, event.value.end_datetime))
 const type = ref(event.value.recurrent?.frequency ? 'recurrent' : eventIsMultidate.value ? 'multidate' : 'normal')
 
+// does the recurrence end? Choosing "ends on a date" starts with a date three months after the first one,
+// so the date box is never empty (an empty date box looks filled in on Safari)
+const recurrentEnds = computed({
+  get: () => event.value.recurrent?.until ? 'date' : 'never',
+  set: (value: string) => {
+    if (!event.value.recurrent) return
+    if (value === 'never') {
+      event.value.recurrent.until = null
+    } else if (!event.value.recurrent.until) {
+      const first = DateTime.fromSeconds(event.value.start_datetime || time.nowUnix(), { zone: settings.value.instance_timezone })
+      event.value.recurrent.until = first.plus({ months: 3 }).endOf('day').toUnixInteger()
+    }
+  }
+})
+
 // last day of the recurrence (yyyy-MM-dd), stored as the end of that day in the instance timezone
 const recurrentUntil = computed({
   get: () => event.value.recurrent?.until ? time.unixFormat(event.value.recurrent.until, 'yyyy-MM-dd') : null,
@@ -49,6 +64,39 @@ const timeOptions = Array.from({ length: 96 }, (_, i) => {
   return {
     title: `${h % 12 || 12}:${String(m).padStart(2, '0')} ${h < 12 ? 'AM' : 'PM'}`,
     value: `${String(h).padStart(2, '0')}:${String(m).padStart(2, '0')}`
+  }
+})
+
+// end time choices: only times after the start. In a single-day event they can go past midnight
+// (a dance from 9 PM to 1 AM), those are marked "next day". Multi-day events pick their end date instead.
+const endTimeOptions = computed(() => {
+  const start = selectedStartTime.value
+  if (!start) return timeOptions
+  const multidate = type.value === 'multidate'
+  const sameDay = !selectedDates.value?.end || DateTime.fromJSDate(selectedDates.value.end).hasSame(DateTime.fromJSDate(selectedDates.value.start ?? selectedDates.value.end), 'day')
+  if (multidate && !sameDay) return timeOptions
+  const first = timeOptions.findIndex(o => o.value === start) + 1
+  const following = timeOptions.slice(first)
+  if (multidate) return following
+  // up to 12 hours after the start: longer events are multi-day events
+  const wrapped = timeOptions.slice(0, first - 1).map(o => ({ ...o, title: `${o.title} (${t('event.next_day')})` }))
+  return [...following, ...wrapped].slice(0, 48)
+})
+// a multi-day event that ends on its first day must end after it starts
+const endTimeRules = computed(() => {
+  const rules: Array<(v: string | null) => true | string> = []
+  if (type.value === 'multidate') {
+    rules.push(v => !v || !selectedStartTime.value || endTimeOptions.value.some(o => o.value === v) || t('event.end_after_start'))
+  }
+  if (!(settings.value.allow_event_without_end_time && type.value !== 'multidate')) {
+    rules.push(v => !!v || t('validators.required', { fieldName: t('event.due') }))
+  }
+  return rules
+})
+// an end time that is no longer possible after changing the start is cleared, instead of silently changing
+watch([selectedStartTime, type], () => {
+  if (selectedEndTime.value && !endTimeOptions.value.some(o => o.value === selectedEndTime.value)) {
+    selectedEndTime.value = null
   }
 })
 
@@ -102,7 +150,7 @@ const whenPatterns = computed(() => {
 })
 
 // update event start/end datetime when dates or times change
-watch([selectedDates, selectedStartTime, selectedEndTime], ([dates, startTime, endTime]) => {
+watch([selectedDates, selectedStartTime, selectedEndTime, type], ([dates, startTime, endTime]) => {
   // if no date or time is selected, reset datetime fields
   if (!startTime || !dates?.start) {
     event.value.start_datetime = 0
@@ -111,7 +159,18 @@ watch([selectedDates, selectedStartTime, selectedEndTime], ([dates, startTime, e
   }
 
   event.value.start_datetime = time.fromDateAndTime(dates.start, startTime)
-  event.value.end_datetime = endTime ? time.fromDateAndTime(dates?.end ? dates.end : dates.start, endTime) : undefined
+  if (!endTime) {
+    event.value.end_datetime = undefined
+    return
+  }
+  // multi-day events end on the end date, the others on the day they start...
+  const multidate = type.value === 'multidate' && dates.end
+  let end = time.fromDateAndTime(multidate ? dates.end! : dates.start, endTime)
+  // ...or the day after, when the end time is earlier than the start time (e.g. 9 PM to 1 AM)
+  if (!multidate && end <= event.value.start_datetime) {
+    end = DateTime.fromSeconds(end, { zone: settings.value.instance_timezone }).plus({ days: 1 }).toUnixInteger()
+  }
+  event.value.end_datetime = end
 })
 
 // normalize DatePicker input
@@ -186,18 +245,21 @@ const pickDates = computed({
       >{{ whenPattern.label }}</v-btn>
     </v-btn-toggle>
 
+    <v-radio-group v-model='recurrentEnds' inline hide-details class='justify-center mt-3'>
+      <v-radio value='never' :label="t('event.recurrent_no_end')" />
+      <v-radio value='date' :label="t('event.recurrent_ends_on')" />
+    </v-radio-group>
     <v-text-field
+      v-if="recurrentEnds === 'date'"
       v-model='recurrentUntil'
-      class='mx-auto mt-4 text-start'
+      class='mx-auto mt-2 text-start'
       max-width='320'
       type='date'
       :min="event.start_datetime ? time.unixFormat(event.start_datetime, 'yyyy-MM-dd') : undefined"
       :label="t('event.recurrent_until')"
       :hint="t('event.recurrent_until_help')"
       prepend-icon='mdi-calendar-end'
-      persistent-hint
-      persistent-placeholder
-      clearable />
+      persistent-hint />
   </div>
 
   <v-row class="mt-3 col-md-6 mx-auto datePicker">
@@ -215,8 +277,8 @@ const pickDates = computed({
       <!-- :disabled="!value.fromHour" -->
       <v-select
         v-model='selectedEndTime'
-        :items='timeOptions'
-        :rules="[settings.allow_event_without_end_time && type !== 'multidate' ? true : $valid.required('event.due')]"
+        :items='endTimeOptions'
+        :rules='endTimeRules'
         :label="t('event.due')"
         :clearable='settings.allow_event_without_end_time'
         prepend-icon='mdi-clock-time-eight-outline' />
