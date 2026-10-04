@@ -117,6 +117,7 @@ async function createOccurrenceAt(e: Event, start: DateTime) {
     userId: e.userId,
     placeId: e.placeId,
     ...(e.online_locations && { online_locations: e.online_locations }),
+    ...(e.cost && { cost: e.cost }),
     start_datetime,
     end_datetime: e.end_datetime ? start_datetime + duration : undefined
   }

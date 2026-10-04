@@ -19,6 +19,23 @@ useHead(() => {
   }
 })
 
+// venues saved before addresses could be looked up have no coordinates: find them from the address so a map can be drawn
+const mapPlace = ref(data.value?.place?.latitude && data.value?.place?.longitude ? data.value.place : null)
+onMounted(async () => {
+  const place = data.value?.place
+  if (mapPlace.value || !settings.value?.allow_geolocation || !place?.address || place.name === 'online') {
+    return
+  }
+  try {
+    const found = await $fetch<{ lat: number, lon: number }[]>('/api/geocode', { params: { q: place.address } })
+    if (found?.[0]) {
+      mapPlace.value = { ...place, latitude: found[0].lat, longitude: found[0].lon }
+    }
+  } catch {
+    // no map for this venue
+  }
+})
+const mapLink = useMapLink(() => mapPlace.value ?? {})
 </script>
 <template>
 <v-container id='home' class='px-2 px-sm-6 pt-0'>
@@ -28,12 +45,11 @@ useHead(() => {
   <span v-if='data.place?.name!=="online"' class="d-block text-subtitle text-center w-100">{{ data.place?.address }}</span>
 
   <!-- Map -->
-  <div
-    v-if='settings?.allow_geolocation && data.place?.latitude && data.place?.longitude'
-    class="position-relative my-4"
-  >
-    <Map :place='data.place' height="12rem" />
-    <HowToArriveNav :place='data.place' />
+  <div v-if='settings?.allow_geolocation && mapPlace' class="position-relative my-4">
+    <Map :place='mapPlace' height="12rem" />
+    <!-- tapping the map opens the visitor's own maps app -->
+    <a class="map-cover" :href="mapLink" target="_blank" rel="noopener" :aria-label="$t('common.open_in_maps')" />
+    <HowToArriveNav :place='mapPlace' />
   </div>
 
   <!-- Events -->
@@ -62,3 +78,12 @@ useHead(() => {
 
 </v-container>
 </template>
+
+<style>
+.map-cover {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  border-radius: 8px;
+}
+</style>

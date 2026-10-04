@@ -262,6 +262,10 @@ export class Event extends Model<
   @Attribute(DataTypes.JSON)
   declare online_locations?: CreationOptional<string[] | null>
 
+  // what it costs to attend, free text such as "$5-15" (optional)
+  @Attribute(DataTypes.STRING)
+  declare cost?: CreationOptional<string | null>
+
   @Attribute(DataTypes.JSON)
   declare recurrent?: CreationOptional<Recurrent | null>
 

@@ -156,9 +156,17 @@ async function report() {
               :to="`/place/${event?.place?.id}/${encodeURIComponent(event?.place?.name)}`">
               <span itemprop="name">{{ event?.place?.name }}</span>
             </nuxt-link>
-            <div v-if='event?.place?.name !== "online"' class="font-weight-light p-street-address" itemprop="address">
-              {{ event?.place?.address }}
+            <div v-if='event?.place?.name !== "online"' class="d-flex align-center font-weight-light">
+              <span class="p-street-address" itemprop="address">{{ event?.place?.address }}</span>
+              <v-btn
+                v-if="event?.place?.address" class="ml-1" icon="mdi-content-copy" size="x-small" variant="text"
+                :aria-label="$t('common.copy_address')" :title="$t('common.copy_address')"
+                @click="$copyToClipboard(event.place.address)" />
             </div>
+          </div>
+          <div v-if="event?.cost" class="mt-1">
+            <v-icon icon="mdi-cash" size="small" />
+            <span class="ml-2 font-weight-light">{{ event.cost }}</span>
           </div>
           <!-- <a class="d-block" v-if="event.ap_object?.url" :href="event.ap_object?.url">{{ event.ap_object?.url }}</a> -->
           <a v-if="event?.original_url" :href="event?.original_url">{{ event.original_url }}</a>
