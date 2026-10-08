@@ -51,6 +51,7 @@ const canEdit = computed(() => event?.value?.is_mine || user?.value?.role === 'a
 const hasOnlineLocations = computed(() => event?.value?.online_locations?.length)
 
 const share = useShare()
+const { isFavorite, toggleFavorite } = useFavorites()
 const shareEvent = () => share.value?.({ url: canonicalUrl.value, title: document.title })
 
 // head () {
@@ -190,6 +191,12 @@ async function report() {
         <v-divider />
         <!-- info & actions -->
         <v-list>
+
+          <!-- favorite (kept in this browser) -->
+          <v-list-item
+            :prepend-icon="isFavorite(event.id) ? 'mdi-star' : 'mdi-star-outline'"
+            :title="$t(isFavorite(event.id) ? 'common.favorite_remove' : 'common.favorite_add')"
+            @click="toggleFavorite(event.id)" />
 
           <!-- share/copy link -->
           <v-list-item

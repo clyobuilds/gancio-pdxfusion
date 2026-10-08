@@ -39,6 +39,21 @@ const isCurrentMonth = computed(() => params.value.start === time.startMonth())
 // tabs: all events, or only one kind (Social / Lesson / Workshop)
 const category = useState<string>('category', () => 'all')
 
+// favorites tab: the favorited events are fetched one by one, so older ones (no longer in the home list) are included
+const { favorites } = useFavorites()
+const favoriteEvents = ref<EventAPI[]>([])
+async function loadFavorites() {
+  const found = await Promise.all(favorites.value.map(id => $fetch<EventAPI>(`/api/event/detail/${id}`).catch(() => null)))
+  favoriteEvents.value = found.filter((e): e is EventAPI => !!e)
+}
+watch([category, () => favorites.value.length], () => {
+  if (category.value === 'favorites') loadFavorites()
+}, { immediate: true })
+// upcoming first (soonest first), then the ones that are over (most recent first)
+const favoriteList = computed(() => favoriteEvents.value.filter(e => favorites.value.includes(e.id!)))
+const upcomingFavorites = computed(() => favoriteList.value.filter(e => !eventIsPast(e)).sort((a, b) => a.start_datetime - b.start_datetime))
+const pastFavorites = computed(() => favoriteList.value.filter(e => eventIsPast(e)).sort((a, b) => b.start_datetime - a.start_datetime))
+
 const dateFiltered = computed(() => {
   if (params.value.query) {
     return events.value
@@ -99,10 +114,29 @@ const { data: announcements } = await useFetch<Announcement[]>('/api/announcemen
   <v-tabs v-model='category' id='category-tabs' class='mt-2 mt-sm-4' color='primary' align-tabs='center' grow>
     <v-tab value='all'>{{ $t('common.type_all') }}</v-tab>
     <v-tab v-for='c in EVENT_CATEGORIES' :key='c' :value='c'>{{ $t(`common.type_${c.toLowerCase()}`) }}s</v-tab>
+    <v-tab value='favorites' :aria-label="$t('common.favorites')">
+      <v-icon icon='mdi-star' />
+      <span class='d-none d-sm-inline ml-1'>{{ $t('common.favorites') }}</span>
+    </v-tab>
   </v-tabs>
 
   <!-- Events -->
-  <section class='events mt-sm-4 mt-2'>
+  <section v-if="category === 'favorites'" class='events mt-sm-4 mt-2'>
+    <div v-for='event in upcomingFavorites' :key='event.id' class='event'>
+      <EventCard :event='event' :hide-thumbs="settings.hide_thumbs" />
+    </div>
+    <h2 v-if='pastFavorites.length' class='month-heading'>{{ $t('common.past_events') }}</h2>
+    <div v-for='event in pastFavorites' :key='event.id' class='event event-past'>
+      <EventCard :event='event' :hide-thumbs="settings.hide_thumbs" />
+    </div>
+    <div v-if="!favoriteList.length" class="d-flex flex-column align-center ga-2 my-8 my-sm-12">
+      <span class="text-h4 text-medium-emphasis">{{ $t('common.favorites_empty') }}</span>
+      <span class="text-center">{{ $t('common.favorites_empty_hint') }}</span>
+      <v-icon icon="mdi-star-outline" :size="120" class="opacity-20 mt-2" />
+    </div>
+  </section>
+
+  <section v-else class='events mt-sm-4 mt-2'>
     <template v-for='(event, idx) in visibleEvents' :key='event.id'>
       <h2 v-if='showMonths && startsMonth(idx)' class='month-heading'>{{ monthLabel(event) }}</h2>
       <v-lazy
