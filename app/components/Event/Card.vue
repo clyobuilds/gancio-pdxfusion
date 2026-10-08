@@ -3,6 +3,7 @@ const time = useTime()
 const settings = useState<Settings>('settings')
 const { $copyToClipboard } = useNuxtApp()
 const canShare = useShare()
+const { isFavorite, toggleFavorite } = useFavorites()
 const { event, lazy = false, hideThumbs = false } = defineProps<{
   event: EventAPI
   lazy?: boolean
@@ -39,6 +40,15 @@ function shareEvent() {
     <v-icon v-if='isPast' class='float-right mr-1' color='warning' icon='mdi-timer-sand' />
     <h3 class='event-title' itemprop="name" :class="isCancelled && 'text-decoration-line-through'">{{ event.title }}</h3>
   </nuxt-link>
+
+  <v-btn
+    class='favorite-button position-absolute top-0 ma-1'
+    variant='text' density='comfortable' :icon="isFavorite(event.id) ? 'mdi-star' : 'mdi-star-outline'"
+    :color="isFavorite(event.id) ? 'primary' : undefined"
+    :aria-label="$t(isFavorite(event.id) ? 'common.favorite_remove' : 'common.favorite_add')"
+    :title="$t(isFavorite(event.id) ? 'common.favorite_remove' : 'common.favorite_add')"
+    :aria-pressed="isFavorite(event.id)"
+    @click.prevent='toggleFavorite(event.id)' />
 
   <v-btn
     class='share-button position-absolute top-0 right-0 ma-1'
