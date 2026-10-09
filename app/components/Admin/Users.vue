@@ -8,12 +8,12 @@ const search = ref('')
 const roleColors = { admin: 'error', editor: 'warning', user: 'success' }
 
 const headers = [
-  { key: 'email', title: t('common.email'), width: 150 },
+  { key: 'email', title: t('common.email') },
   { key: 'description', title: t('common.description') },
   { key: 'is_active', align: 'center', title: t('common.enabled'), width: 20 },
-  { key: 'to_notify', align: 'center', title: t('admin.notify'), width: 150 },
-  { key: 'role', title: t('common.role'), width: 150 },
-  { key: 'actions', title: t('common.actions'), align: 'end', width: 180, sortable: false }
+  { key: 'to_notify', align: 'center', title: t('admin.notify'), width: 90 },
+  { key: 'role', title: t('common.role'), width: 100 },
+  { key: 'actions', title: t('common.actions'), align: 'end', width: 140, sortable: false }
 ]
 
 // one click from the list: turn a waiting account on (the person then gets the "you can now publish" e-mail)
@@ -74,6 +74,9 @@ async function createUser () {
       :search="search"
       :hide-default-footer="users.length<5"
     >
+      <template v-slot:item.email="{item}">
+        <span class="text-break">{{ item.email }}</span>
+      </template>
       <template v-slot:item.is_active="{item}">
         <v-icon :icon="item.is_active ? 'mdi-check' : 'mdi-close'" :color="item.is_active ? 'success': 'warning' "/>
       </template>
@@ -84,26 +87,28 @@ async function createUser () {
         <v-chip :color="roleColors[item.role]" variant='outlined' label density='compact'>{{item.role}}</v-chip>
       </template>
       <template #[`item.actions`]="{item}">
-        <t-btn
-          v-if="!item.is_active"
-          color="success"
-          :tooltip="$t('admin.approve_user')"
-          icon='mdi-account-check'
-          @click="approveUser(item)"
-        />
-        <t-btn
-          color="success"
-          :tooltip="$t('common.edit')"
-          icon='mdi-pencil'
-          @click="editUser(item)"
-        />
-        <t-btn
-          v-if="item.id !== loggedUser.id"
-          color="error"
-          :tooltip="$t('admin.delete_user')"
-          icon='mdi-delete-forever'
-          @click="deleteUser(item)"
-        />
+        <div class="d-flex flex-nowrap justify-end ga-1">
+          <t-btn
+            v-if="!item.is_active"
+            color="success"
+            :tooltip="$t('admin.approve_user')"
+            icon='mdi-account-check'
+            @click="approveUser(item)"
+          />
+          <t-btn
+            color="success"
+            :tooltip="$t('common.edit')"
+            icon='mdi-pencil'
+            @click="editUser(item)"
+          />
+          <t-btn
+            v-if="item.id !== loggedUser.id"
+            color="error"
+            :tooltip="$t('admin.delete_user')"
+            icon='mdi-delete-forever'
+            @click="deleteUser(item)"
+          />
+        </div>
       </template>
     </v-data-table>
   </div>
