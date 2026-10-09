@@ -1,7 +1,7 @@
 import { defineEventHandler, readBody, createError } from 'h3'
 import * as linkify from 'linkifyjs'
 import { useLogger } from '~~/server/lib/logger'
-import { User, enqueueMail, publicSettings } from '~~/server/services'
+import { User, sendMail, publicSettings } from '~~/server/services'
 import { createLoginCode } from '~~/server/services/loginCodes'
 
 /**
@@ -44,7 +44,9 @@ export default defineEventHandler(async (event) => {
   if (user || mayRegister) {
     const code = createLoginCode(address)
     if (code) {
-      enqueueMail(address, 'login_code', { code, user: user ?? { email: address }, config: publicSettings }, event.context.locale)
+      // sent right away: the task queue checks only once a minute, which made codes wait up to a minute
+      sendMail(address, 'login_code', { code, user: user ?? { email: address }, config: publicSettings }, event.context.locale)
+        .catch(e => log.error('Login code e-mail not sent', address, String(e)))
     } else {
       log.warn('Login code asked again too soon', address)
     }

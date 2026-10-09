@@ -31,7 +31,7 @@ export function enqueueMail(addresses: string | string[], template: string, loca
   })
 }
 
-type emailTemplates = 'register' | 'confirm' | 'user_confirm' | 'recover' | 'admin_register' | 'event_confirm' | 'test'
+type emailTemplates = 'register' | 'confirm' | 'user_confirm' | 'recover' | 'admin_register' | 'event_confirm' | 'login_code' | 'test'
 const SEND_TIMEOUT_SECONDS = 30
 
 export async function sendMail(addresses: string | string[], template: emailTemplates, locals?: object, locale?: string, bcc?: boolean) {
