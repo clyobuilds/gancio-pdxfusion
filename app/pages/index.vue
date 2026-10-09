@@ -151,6 +151,11 @@ const { data: announcements } = await useFetch<Announcement[]>('/api/announcemen
       <span>{{ $t('common.no_events_found_hint') }}</span>
       <v-icon icon="mdi-cactus" :size="200" class="opacity-20 mt-2" />
     </div>
+
+    <!-- Archive: every event that is over -->
+    <div class='d-flex justify-center mt-10 mb-4'>
+      <v-btn to='/past' variant='tonal' color='primary' prepend-icon='mdi-archive-outline'>{{ $t('common.past_events') }}</v-btn>
+    </div>
   </section>
 
 </v-container>
