@@ -31,5 +31,9 @@
         "content_ADMIN": "An admin commented about the event <strong>{{event.title}}</strong>:<br/><blockquote>{{message}}</blockquote><br/><br/><a href='{{{url}}}'>Open moderation</a>",
         "content_ANON": "A visitor reported the event <strong>{{event.title}}</strong>:<br/><blockquote>{{message}}</blockquote><br/><br/><a href='{{{url}}}'>Open moderation</a>",
         "content_AUTHOR": "The author of event <strong>{{event.title}}</strong> wrote:<br/><blockquote>{{message}}</blockquote><br/><br/><a href='{{{url}}}'>Open moderation</a>"
+    },
+    "login_code": {
+        "subject": "Your login code",
+        "content": "Hi, your login code for {{config.title}} is <b>{{code}}</b>. It works for 10 minutes and only once. If you did not ask for it, you can ignore this e-mail."
     }
 }

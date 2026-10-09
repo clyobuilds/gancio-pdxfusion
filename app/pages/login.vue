@@ -32,6 +32,39 @@ async function login() {
     .catch(() => $notify('login.error', Statuses.ERROR))
 }
 
+// log in with a code sent by e-mail (no password)
+const codeStep = ref(false)
+const code = ref('')
+
+async function sendCode () {
+  if (!credentials.email) {
+    emailInput.value.focus()
+    return
+  }
+  loading.value = true
+  try {
+    await $fetch('/api/login/code/request', { method: 'POST', body: { email: credentials.email } })
+    codeStep.value = true
+    $notify('login.check_email')
+  } catch (e) {
+    console.error(e)
+    $notify(String(e), Statuses.ERROR)
+  }
+  loading.value = false
+}
+
+async function loginWithCode () {
+  try {
+    await $fetch('/api/login/code/verify', { method: 'POST', body: { email: credentials.email, code: code.value } })
+    await refreshSession()
+    await navigateTo('/')
+    $notify('login.ok', Statuses.SUCCESS)
+  } catch (e) {
+    code.value = ''
+    $notify('login.code_error', Statuses.ERROR)
+  }
+}
+
 async function forgot () {
   if (!credentials.email) {
     emailInput.value.focus()
@@ -87,6 +120,26 @@ async function forgot () {
         </v-card>
 
       </v-form>
+
+      <v-card class='mt-4'>
+        <v-card-title>{{ $t('login.code_title') }}</v-card-title>
+        <v-card-subtitle>{{ $t('login.code_description') }}</v-card-subtitle>
+        <v-card-text v-if='codeStep'>
+          <v-text-field
+            v-model='code'
+            :label='$t("login.code_label")'
+            inputmode='numeric'
+            autocomplete='one-time-code'
+            maxlength='6'
+            @keyup.enter='loginWithCode'
+          />
+        </v-card-text>
+        <v-card-actions>
+          <v-spacer/>
+          <v-btn v-if='!codeStep' color='primary' variant='outlined' :disabled='loading' :loading='loading' @click='sendCode'>{{ $t('login.code_send') }}</v-btn>
+          <v-btn v-else color='success' variant='outlined' :disabled='code.length !== 6' @click='loginWithCode'>{{ $t('login.code_submit') }}</v-btn>
+        </v-card-actions>
+      </v-card>
     </v-col>
   </v-row>
 </v-container>

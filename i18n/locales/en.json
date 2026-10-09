@@ -154,6 +154,12 @@
         "check_email": "Check your e-mail inbox and spam.",
         "not_registered": "Not registered?",
         "forgot_password": "Forgot your password?",
+        "code_title": "Log in without a password",
+        "code_description": "We e-mail you a 6-digit code. Type your e-mail above, press the button, then enter the code.",
+        "code_send": "Send me a code",
+        "code_label": "Code from the e-mail",
+        "code_submit": "Log in",
+        "code_error": "That code is wrong, expired or already used. Ask for a new one.",
         "error": "Could not log in. Check your login info.",
         "insert_email": "Enter your e-mail address",
         "ok": "Logged in"
