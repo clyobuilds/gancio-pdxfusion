@@ -16,6 +16,17 @@ const headers = [
   { key: 'actions', title: t('common.actions'), align: 'end', width: 180, sortable: false }
 ]
 
+// one click from the list: turn a waiting account on (the person then gets the "you can now publish" e-mail)
+async function approveUser (user) {
+  try {
+    await $fetch(`/api/user/${user.id}`, { method: 'PUT', body: { is_active: true } })
+    refresh()
+    $notify('admin.user_update_ok', Statuses.SUCCESS)
+  } catch (e) {
+    $notify(e, Statuses.ERROR)
+  }
+}
+
 async function deleteUser (user) {
   const ret = await $confirm('admin.delete_user_confirm', { user: user.email })
   if (!ret) {
@@ -73,6 +84,13 @@ async function createUser () {
         <v-chip :color="roleColors[item.role]" variant='outlined' label density='compact'>{{item.role}}</v-chip>
       </template>
       <template #[`item.actions`]="{item}">
+        <t-btn
+          v-if="!item.is_active"
+          color="success"
+          :tooltip="$t('admin.approve_user')"
+          icon='mdi-account-check'
+          @click="approveUser(item)"
+        />
         <t-btn
           color="success"
           :tooltip="$t('common.edit')"

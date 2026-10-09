@@ -96,7 +96,8 @@ watchEffect(() => {
 
   <v-divider vertical class="d-none d-md-block" />
 
-  <div class="flex-grow-1 px-md-12">
+  <!-- min-width: 0 lets this part shrink, so a wide table scrolls inside itself instead of pushing the page past the window -->
+  <div class="flex-grow-1 px-md-12" style="min-width: 0">
     <div v-if="selectedItem" class="mb-2">
       <nuxt-link
         :to="{ query: { [queryParam]: undefined } }"

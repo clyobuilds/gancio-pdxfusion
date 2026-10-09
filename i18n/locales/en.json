@@ -440,7 +440,8 @@
         "notify": "Notify",
         "calendar_first_day_of_week": "First day of calendar week",
         "calendar_first_day_of_week_description": "Select the week day calendars should display as the first day of the week. Default selects according to the client's locale.",
-        "calendar_first_day_of_week_default": "Default (client locale)"
+        "calendar_first_day_of_week_default": "Default (client locale)",
+        "approve_user": "Approve: let this person publish"
     },
     "auth": {
         "not_confirmed": "Not confirmed yet…",
