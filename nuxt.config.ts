@@ -38,6 +38,8 @@ export default defineNuxtConfig({
   modules: ['@nuxt/eslint', '@nuxtjs/i18n', (!isTest && '@nuxtjs/sitemap'), '@nuxt/hints'],
   sitemap: {
     cacheMaxAgeSeconds: 3600, // 1 hour
+    // private or action pages: robots.txt already blocks them, so they must not be listed for search engines either
+    exclude: ['/admin', '/admin/**', '/add', '/login', '/register', '/recover/**', '/settings', '/my_events', '/export', '/authorize', '/setup/**', '/user_confirm/**'],
 
     sources: [
       '/api/sitemap/events',
