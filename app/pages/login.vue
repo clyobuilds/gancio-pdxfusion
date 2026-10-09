@@ -116,7 +116,6 @@ async function forgot () {
 
           <v-card-actions>
             <v-spacer/>
-            <v-btn v-if='settings?.allow_registration' to='/register' variant="text" color='orange'>{{$t('login.not_registered')}}</v-btn>
             <v-btn color='success' type='submit' variant='outlined' :disabled='!valid || loading' :loading='loading'>{{$t('common.login')}}</v-btn>
           </v-card-actions>
         </v-card>
@@ -153,6 +152,11 @@ async function forgot () {
           <v-btn v-else color='success' variant='outlined' :disabled='code.length !== 6' @click='loginWithCode'>{{ $t('login.code_submit') }}</v-btn>
         </v-card-actions>
       </v-card>
+
+      <div v-if='settings?.allow_registration' class='text-center mt-6'>
+        <span class='text-medium-emphasis'>{{ $t('login.need_account') }}</span>
+        <v-btn to='/register' variant='text' color='orange'>{{ $t('login.not_registered') }}</v-btn>
+      </div>
     </v-col>
   </v-row>
 </v-container>

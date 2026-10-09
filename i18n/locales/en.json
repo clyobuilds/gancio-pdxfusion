@@ -162,7 +162,8 @@
         "code_error": "That code is wrong, expired or already used. Ask for a new one.",
         "error": "Could not log in. Check your login info.",
         "insert_email": "Enter your e-mail address",
-        "ok": "Logged in"
+        "ok": "Logged in",
+        "need_account": "Need an account?"
     },
     "recover": {
         "not_valid_code": "Something went wrong."
