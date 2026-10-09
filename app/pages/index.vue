@@ -23,6 +23,7 @@ useHead({
     { rel: 'alternate', type: 'application/rss+xml', title: settings.value.title, href: settings.value.baseurl + '/feed/rss' },
     { rel: 'alternate', type: 'text/calendar', title: settings.value.title, href: settings.value.baseurl + '/feed/ics' },
     { rel: 'search', type: 'application/opensearchdescription+xml', title: settings.value.title, href: settings.value.baseurl + '/opensearch.xml' },
+    { rel: 'canonical', href: settings.value.baseurl },
     { rel: 'me', href: `${settings.value.baseurl}/federation/u/${settings.value.instance_name}` }
   ]
 })

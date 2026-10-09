@@ -12,7 +12,10 @@ const PAGE_SIZE = 60
 const now = time.nowUnix()
 const query = (page: number) => ({ start: now, older: true, reverse: true, show_recurrent: true, max: PAGE_SIZE, page })
 
-useHead({ title: `${settings.value.title} - ${t('common.past_events')}` })
+useHead({
+  title: `${settings.value.title} - ${t('common.past_events')}`,
+  link: [{ rel: 'canonical', href: `${settings.value.baseurl}/past` }]
+})
 
 const { data: first } = await useFetch<EventAPI[]>('/api/events', { query: query(0), key: 'past-events' })
 const events = ref<EventAPI[]>([...(first.value ?? [])])
