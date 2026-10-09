@@ -36,7 +36,6 @@ const register = async () => {
 const codeStep = ref(false)
 const codeEmail = ref('')
 const codeEmailInput = ref()
-const codeDescription = ref('')
 const code = ref('')
 const codeLoading = ref(false)
 
@@ -61,7 +60,7 @@ async function signupWithCode () {
   try {
     const result = await $fetch('/api/login/code/verify', {
       method: 'POST',
-      body: { email: codeEmail.value, code: code.value, register: true, description: codeDescription.value }
+      body: { email: codeEmail.value, code: code.value, register: true }
     })
     if (result.pending) {
       $notify('register.complete')
@@ -126,13 +125,6 @@ async function signupWithCode () {
             type='email'
             autocomplete='email'
           />
-          <v-textarea
-            v-if='!codeStep'
-            v-model='codeDescription'
-            :label='$t("common.description")'
-            :hint='$t("register.code_description_hint")'
-            persistent-hint
-          />
           <v-text-field
             v-if='codeStep'
             v-model='code'
@@ -146,7 +138,7 @@ async function signupWithCode () {
         <v-card-actions>
           <v-spacer/>
           <v-btn v-if='!codeStep' color='primary' variant='outlined' :disabled='codeLoading' :loading='codeLoading' @click='sendSignupCode'>{{ $t('login.code_send') }}</v-btn>
-          <v-btn v-else color='success' variant='outlined' :disabled='code.length !== 6 || !codeDescription.trim() || codeLoading' :loading='codeLoading' @click='signupWithCode'>{{ $t('register.code_submit') }}</v-btn>
+          <v-btn v-else color='success' variant='outlined' :disabled='code.length !== 6 || codeLoading' :loading='codeLoading' @click='signupWithCode'>{{ $t('register.code_submit') }}</v-btn>
         </v-card-actions>
       </v-card>
     </v-col>

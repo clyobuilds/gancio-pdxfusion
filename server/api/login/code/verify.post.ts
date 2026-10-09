@@ -11,7 +11,7 @@ const bodySchema = z.object({
   email: z.string().trim(),
   code: z.string().trim().regex(/^\d{6}$/),
   register: z.boolean().optional(),
-  description: z.string().trim().max(2000).optional()
+  description: z.string().trim().max(2000).optional()  // not asked on the form any more; kept for API callers
 })
 
 /**
@@ -45,7 +45,7 @@ const bodySchema = z.object({
  *       200:
  *         description: Logged in, or sign-up received (`pending: true`).
  *       400:
- *         description: Missing description or invalid e-mail.
+ *         description: Invalid e-mail.
  *       401:
  *         description: Wrong, expired or used code.
  *       409:
@@ -75,9 +75,6 @@ export default defineEventHandler(async (event) => {
   if (!linkify.test(email, 'email')) {
     throw createError({ statusCode: 400, message: 'Invalid e-mail' })
   }
-  if (!description) {
-    throw createError({ statusCode: 400, message: 'Missing description' })
-  }
   if (!checkLoginCode(email, code)) {
     log.warn('Wrong or expired sign-up code', email)
     throw createError({ statusCode: 401, message: 'Bad credentials' })
@@ -94,7 +91,7 @@ export default defineEventHandler(async (event) => {
   const created = await User.create({
     email,
     password: randomUUID(),
-    description,
+    description: description ?? '',
     role: first ? 'admin' : 'user',
     is_active: first
   })

@@ -32,6 +32,8 @@ export function enqueueMail(addresses: string | string[], template: string, loca
 }
 
 type emailTemplates = 'register' | 'confirm' | 'user_confirm' | 'recover' | 'admin_register' | 'event_confirm' | 'test'
+const SEND_TIMEOUT_SECONDS = 30
+
 export async function sendMail(addresses: string | string[], template: emailTemplates, locals?: object, locale?: string, bcc?: boolean) {
   // this hack is needed because there are more standards to indicate language code
   // https://framagit.org/les/gancio/-/issues/539#note_2198016
@@ -94,9 +96,15 @@ export async function sendMail(addresses: string | string[], template: emailTemp
       datetime: (timestamp: number) => DateTime.fromSeconds(timestamp, opt).toFormat('EEEE, d MMMM HH:mm')
     }
   }
-  return email.send(msg)
+  // the task manager waits for every task in a tick: a send that never ends would stop all the others
+  let timer: ReturnType<typeof setTimeout> | undefined
+  const timeout = new Promise((_, reject) => {
+    timer = setTimeout(() => reject(new Error(`e-mail not sent after ${SEND_TIMEOUT_SECONDS} seconds`)), SEND_TIMEOUT_SECONDS * 1000)
+  })
+  return Promise.race([email.send(msg), timeout])
     .catch((e) => {
       log.error('[MAIL]', e)
       throw e
     })
+    .finally(() => clearTimeout(timer))
 }

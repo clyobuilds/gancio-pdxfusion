@@ -187,8 +187,7 @@
         "complete": "Registration has to be confirmed.",
         "first_user": "Administrator created",
         "code_title": "Sign up without a password",
-        "code_description": "We e-mail you a 6-digit code to confirm your address. Then tell us what you would like to publish. An admin approves new accounts before you can publish.",
-        "code_description_hint": "Two lines: what events you would like to publish. Admins read this before approving.",
+        "code_description": "We e-mail you a 6-digit code to confirm your address. An admin approves new accounts before you can publish.",
         "code_submit": "Send sign-up"
     },
     "event": {
