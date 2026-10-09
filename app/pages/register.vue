@@ -10,7 +10,7 @@ useHead({
 const form = ref()
 const email = ref()
 const loading = ref(false)
-const user = reactive({ email: '', password: '', description: '' })
+const user = reactive({ email: '', password: '' })
 const valid = ref(false)
 const { $notify } = useNuxtApp()
 
@@ -96,10 +96,6 @@ async function signupWithCode () {
             <v-text-field
               v-model="user.password" type="password" :rules="[$valid.password]"
               :label="$t('common.password')" />
-
-            <v-textarea
-              v-model="user.description" :rules="[$valid.required($t('common.description'))]"
-              :label="$t('common.description')" />
           </v-card-text>
 
           <v-card-actions>

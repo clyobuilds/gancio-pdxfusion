@@ -182,12 +182,12 @@
         "show_more": "Show more"
     },
     "register": {
-        "description": "Social movements should organize and self-finance.<br/>\n<br/>Before you can publish, <strong> the account must be approved</strong>, consider that <strong> behind this site you will find real people</strong>, so write two lines to let us know what events you would like to publish.",
+        "description": "An admin approves new accounts before you can login.",
         "error": "Error: ",
         "complete": "Registration has to be confirmed.",
         "first_user": "Administrator created",
         "code_title": "Sign up without a password",
-        "code_description": "We e-mail you a 6-digit code to confirm your address. An admin approves new accounts before you can publish.",
+        "code_description": "We e-mail you a 6-digit code to confirm your address. An admin approves new accounts before you can login.",
         "code_submit": "Send sign-up"
     },
     "event": {
