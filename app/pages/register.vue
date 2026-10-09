@@ -1,6 +1,7 @@
 <script setup>
 
 const settings = useState('settings')
+const { fetch: refreshSession } = useUserSession()
 const { t } = useI18n()
 useHead({
   title: `${settings.value.title} - ${t('common.register')}`
@@ -29,6 +30,53 @@ const register = async () => {
     $notify(e, Statuses.ERROR)
   }
   loading.value = false
+}
+
+// sign up with an e-mail code (no password): the account waits for approval, like the form above
+const codeStep = ref(false)
+const codeEmail = ref('')
+const codeEmailInput = ref()
+const codeDescription = ref('')
+const code = ref('')
+const codeLoading = ref(false)
+
+async function sendSignupCode () {
+  if (!codeEmail.value) {
+    codeEmailInput.value.focus()
+    return
+  }
+  codeLoading.value = true
+  try {
+    await $fetch('/api/login/code/request', { method: 'POST', body: { email: codeEmail.value, register: true } })
+    codeStep.value = true
+    $notify('login.check_email')
+  } catch (e) {
+    $notify(e, Statuses.ERROR)
+  }
+  codeLoading.value = false
+}
+
+async function signupWithCode () {
+  codeLoading.value = true
+  try {
+    const result = await $fetch('/api/login/code/verify', {
+      method: 'POST',
+      body: { email: codeEmail.value, code: code.value, register: true, description: codeDescription.value }
+    })
+    if (result.pending) {
+      $notify('register.complete')
+      navigateTo('/')
+    } else {
+      // the first account on a new site: already an active admin
+      await refreshSession()
+      $notify('register.first_user')
+      navigateTo('/')
+    }
+  } catch (e) {
+    code.value = ''
+    $notify('login.code_error', Statuses.ERROR)
+  }
+  codeLoading.value = false
 }
 </script>
 <template>
@@ -64,6 +112,43 @@ const register = async () => {
           </v-card-actions>
         </v-card>
       </v-form>
+
+      <v-card v-if='settings?.allow_registration' class='mt-4'>
+        <v-card-title>{{ $t('register.code_title') }}</v-card-title>
+        <v-card-subtitle>{{ $t('register.code_description') }}</v-card-subtitle>
+        <v-card-text>
+          <v-text-field
+            ref='codeEmailInput'
+            v-model='codeEmail'
+            :disabled='codeStep'
+            :rules='$valid.email'
+            :label='$t("common.email")'
+            type='email'
+            autocomplete='email'
+          />
+          <v-textarea
+            v-if='!codeStep'
+            v-model='codeDescription'
+            :label='$t("common.description")'
+            :hint='$t("register.code_description_hint")'
+            persistent-hint
+          />
+          <v-text-field
+            v-if='codeStep'
+            v-model='code'
+            :label='$t("login.code_label")'
+            inputmode='numeric'
+            autocomplete='one-time-code'
+            maxlength='6'
+            @keyup.enter='signupWithCode'
+          />
+        </v-card-text>
+        <v-card-actions>
+          <v-spacer/>
+          <v-btn v-if='!codeStep' color='primary' variant='outlined' :disabled='codeLoading' :loading='codeLoading' @click='sendSignupCode'>{{ $t('login.code_send') }}</v-btn>
+          <v-btn v-else color='success' variant='outlined' :disabled='code.length !== 6 || !codeDescription.trim() || codeLoading' :loading='codeLoading' @click='signupWithCode'>{{ $t('register.code_submit') }}</v-btn>
+        </v-card-actions>
+      </v-card>
     </v-col>
   </v-row>
 </v-container>

@@ -32,18 +32,20 @@ async function login() {
     .catch(() => $notify('login.error', Statuses.ERROR))
 }
 
-// log in with a code sent by e-mail (no password)
+// log in with a code sent by e-mail (no password): this card has its own e-mail field
 const codeStep = ref(false)
 const code = ref('')
+const codeEmail = ref('')
+const codeEmailInput = ref()
 
 async function sendCode () {
-  if (!credentials.email) {
-    emailInput.value.focus()
+  if (!codeEmail.value) {
+    codeEmailInput.value.focus()
     return
   }
   loading.value = true
   try {
-    await $fetch('/api/login/code/request', { method: 'POST', body: { email: credentials.email } })
+    await $fetch('/api/login/code/request', { method: 'POST', body: { email: codeEmail.value } })
     codeStep.value = true
     $notify('login.check_email')
   } catch (e) {
@@ -55,7 +57,7 @@ async function sendCode () {
 
 async function loginWithCode () {
   try {
-    await $fetch('/api/login/code/verify', { method: 'POST', body: { email: credentials.email, code: code.value } })
+    await $fetch('/api/login/code/verify', { method: 'POST', body: { email: codeEmail.value, code: code.value } })
     await refreshSession()
     await navigateTo('/')
     $notify('login.ok', Statuses.SUCCESS)
@@ -124,8 +126,19 @@ async function forgot () {
       <v-card class='mt-4'>
         <v-card-title>{{ $t('login.code_title') }}</v-card-title>
         <v-card-subtitle>{{ $t('login.code_description') }}</v-card-subtitle>
-        <v-card-text v-if='codeStep'>
+        <v-card-text>
           <v-text-field
+            ref='codeEmailInput'
+            v-model='codeEmail'
+            :disabled='codeStep'
+            :rules='$valid.email'
+            :label='$t("common.email")'
+            type='email'
+            autocomplete='email'
+            @keyup.enter='sendCode'
+          />
+          <v-text-field
+            v-if='codeStep'
             v-model='code'
             :label='$t("login.code_label")'
             inputmode='numeric'
