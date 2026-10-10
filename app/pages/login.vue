@@ -112,9 +112,6 @@ async function forgot () {
 
           <v-card-actions>
             <v-btn variant="text" tabindex="1" size="small" @click='forgot'>{{$t('login.forgot_password')}}</v-btn>
-          </v-card-actions>
-
-          <v-card-actions>
             <v-spacer/>
             <v-btn color='success' type='submit' variant='outlined' :disabled='!valid || loading' :loading='loading'>{{$t('common.login')}}</v-btn>
           </v-card-actions>
