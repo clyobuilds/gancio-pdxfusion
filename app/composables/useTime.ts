@@ -84,7 +84,7 @@ export function useTime() {
       ...(cy !== start.year && { year: 'numeric' }),
       month: 'short',
       day: '2-digit',
-      hour: '2-digit',
+      hour: 'numeric',
       minute: '2-digit',
       ...(addTimezone && { timeZoneName: 'short' })
     })
@@ -99,7 +99,7 @@ export function useTime() {
           day: '2-digit'
         })}`
       } else if (end.diff(start, 'minutes').minutes > 0) {
-        timeStr += `-${end.toLocaleString({ hour: '2-digit', minute: '2-digit' })}`
+        timeStr += `-${end.toLocaleString({ hour: 'numeric', minute: '2-digit' })}`
       }
     }
 
